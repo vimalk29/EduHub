@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#fff"
+        android:weightSum="6">
+
+        <RelativeLayout
+            android:layout_weight=".8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/eduHub"
+                android:text="Eduhub"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:fontFamily="serif"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/eduHub"
+                android:background="#0A1233"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_weight="5"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_weight=".8"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:id="@+id/dashboard"
+                    android:layout_centerHorizontal="true"
+                    android:text="Dashboard"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/attendance"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:text="Attendence"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:layout_marginBottom="20dp"
+                            android:fontFamily="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/assignment"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:text="Assignment"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:fontFamily="serif"
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/projects"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="Projects"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:fontFamily="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/marks"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="Marks"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:fontFamily="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/timeTable"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="Time Table"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:fontFamily="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/syllabus"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#fff"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:background="@drawable/shape_cardview"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="Syllabus"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:fontFamily="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/report"
+                android:text="Report an issue!"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:fontFamily="serif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

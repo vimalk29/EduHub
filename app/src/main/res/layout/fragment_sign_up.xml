@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg">
+
+    <RelativeLayout
+        android:layout_above="@id/sign_up_button"
+        android:background="@drawable/gradient_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:fontFamily="serif"
+            android:text="EduHub"
+            android:textColor="#fff"
+            android:textSize="50sp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/inputProfile"
+            android:src="@drawable/ic_account_circle_black_24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="5dp"
+            android:layout_below="@id/heading"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextOrgName"
+            android:layout_marginHorizontal="5dp"
+            android:layout_below="@id/inputProfile"
+            android:hint="Organisation Name"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/email"
+            android:layout_below="@id/editTextOrgName"
+            android:layout_marginHorizontal="5dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextAddress"
+            android:layout_below="@id/email"
+            android:layout_marginHorizontal="5dp"
+            android:hint="Address"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextNumber"
+            android:layout_below="@id/editTextAddress"
+            android:hint="Mobile Number"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="20dp"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password"
+            android:layout_below="@id/editTextNumber"
+            android:layout_marginHorizontal="5dp"
+            android:hint="Password"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextRePassword"
+            android:layout_below="@id/password"
+            android:layout_marginHorizontal="5dp"
+            android:hint="Retype Password"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/sign_up_button"
+        android:background="#0A1233"/>
+    <Button
+        android:id="@+id/sign_up_button"
+        android:layout_alignParentBottom="true"
+        android:text="Submit"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:background="#0C164D"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
