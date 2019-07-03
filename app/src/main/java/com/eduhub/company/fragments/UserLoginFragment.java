@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eduhub.company.R;
@@ -23,7 +24,8 @@ public class UserLoginFragment extends Fragment {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
-    Button btnSignUp, btnLogin, btnReset;
+    Button btnSignUp, btnLogin;
+    TextView btnReset;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
