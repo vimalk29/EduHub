@@ -1,15 +1,15 @@
-package com.eduhub.company.activities;
+package com.eduhub.company.activities.InfoTab;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.eduhub.company.R;
 
-public class Projects extends AppCompatActivity {
+public class Assignment extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projects);
+        setContentView(R.layout.activity_assignment);
     }
 }

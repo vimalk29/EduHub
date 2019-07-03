@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.Syllabus"></activity>
-        <activity android:name=".activities.TimeTable" />
-        <activity android:name=".activities.Marks" />
-        <activity android:name=".activities.Projects" />
-        <activity android:name=".activities.Assignment" />
-        <activity android:name=".activities.Attendance" />
+        <activity android:name=".activities.InfoTab.Syllabus"></activity>
+        <activity android:name=".activities.InfoTab.TimeTable" />
+        <activity android:name=".activities.InfoTab.Marks" />
+        <activity android:name=".activities.InfoTab.Projects" />
+        <activity android:name=".activities.InfoTab.Assignment" />
+        <activity android:name=".activities.InfoTab.Attendance" />
         <activity android:name=".activities.FirstActivity" />
         <activity
             android:name=".activities.SplashScreen"
