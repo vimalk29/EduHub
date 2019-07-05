@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.eduhub.company.R;
-import com.eduhub.company.activities.Assignment;
-import com.eduhub.company.activities.Attendance;
-import com.eduhub.company.activities.Marks;
-import com.eduhub.company.activities.Projects;
-import com.eduhub.company.activities.Syllabus;
-import com.eduhub.company.activities.TimeTable;
+import com.eduhub.company.activities.InfoTab.Assignment;
+import com.eduhub.company.activities.InfoTab.Attendance;
+import com.eduhub.company.activities.InfoTab.Marks;
+import com.eduhub.company.activities.InfoTab.Projects;
+import com.eduhub.company.activities.InfoTab.Syllabus;
+import com.eduhub.company.activities.InfoTab.TimeTable;
 
 public class Info extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.eduhub.company.activities;
+package com.eduhub.company.activities.InfoTab;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
