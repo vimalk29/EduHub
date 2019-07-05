@@ -24,7 +24,7 @@ public class Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_home,null,false);
-        listView = view.findViewById(R.id.listView);
+//        listView = view.findViewById(R.id.listView);
 
 //        HomePOJO homepojo = new HomePOJO();
 //

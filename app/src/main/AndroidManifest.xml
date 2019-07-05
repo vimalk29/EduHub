@@ -13,16 +13,56 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.Syllabus"></activity>
-        <activity android:name=".activities.TimeTable" />
-        <activity android:name=".activities.Marks" />
-        <activity android:name=".activities.Projects" />
-        <activity android:name=".activities.Assignment" />
-        <activity android:name=".activities.Attendance" />
+        <activity android:name=".activities.ReportIssue"
+            android:theme="@style/AppTheme.NoActionBar"  ></activity>
+        <activity
+            android:name=".activities.ChatRoom"
+            android:label="@string/title_activity_chat_room"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.SyllabusT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.TimeTableT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.ProjectsT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MarksT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.AssignmentT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.AttendanceT"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.MainActivityT" />
+        <activity android:name=".activities.MainActivityParent" />
+        <activity
+            android:name=".activities.Syllabus"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.TimeTable"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.Marks"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.Dashboard" />
+        <activity
+            android:name=".activities.Projects"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.Assignment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.Attendance"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.FirstActivity" />
         <activity
             android:name=".activities.SplashScreen"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

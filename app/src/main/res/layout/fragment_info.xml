@@ -12,31 +12,6 @@
         android:background="#fff"
         android:weightSum="6">
 
-        <RelativeLayout
-            android:layout_weight=".8"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <TextView
-                android:id="@+id/eduHub"
-                android:text="Eduhub"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:textSize="40sp"
-                android:fontFamily="serif"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/eduHub"
-                android:background="#0A1233"/>
-
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_weight="5"
             android:background="#fff"
@@ -45,23 +20,12 @@
             android:weightSum="5"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_weight=".8"
+            <LinearLayout
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-                <TextView
-                    android:id="@+id/dashboard"
-                    android:layout_centerHorizontal="true"
-                    android:text="Dashboard"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:fontFamily="serif"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2"/>
 
             <LinearLayout
                 android:layout_weight="1"

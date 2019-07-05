@@ -10,24 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#0C164D">
+        android:background="#fff">
 
         <RelativeLayout
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_bg"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-            <TextView
-                android:id="@+id/heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="0dp"
-                android:fontFamily="serif"
-                android:text="EduHub"
-                android:textColor="#fff"
-                android:textSize="50sp" />
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profilePicture"
                 android:layout_centerInParent="true"
@@ -40,7 +29,7 @@
                 android:layout_below="@id/profilePicture"
                 android:fontFamily="serif"
                 android:text="userName"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
@@ -53,81 +42,50 @@
             android:layout_height="0dp"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                app:cardBackgroundColor="#0A1138"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp">
             <TextView
                 android:id="@+id/textViewName"
                 android:fontFamily="serif"
                 android:text="Name"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                app:cardBackgroundColor="#0A1138"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp">
             <TextView
                 android:id="@+id/textViewEmail"
                 android:fontFamily="serif"
-                android:text="userEmail"
-                android:textColor="#fff"
+                android:text="Name"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                app:cardBackgroundColor="#0A1138"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp">
             <TextView
-                android:id="@+id/textViewContact"
+                android:id="@+id/textViewNumber"
                 android:fontFamily="serif"
-                android:text="contact"
-                android:textColor="#fff"
+                android:text="Name"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                app:cardBackgroundColor="#0A1138"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp">
             <TextView
-                android:id="@+id/textViewOrg"
+                android:id="@+id/textViewOrgName"
                 android:fontFamily="serif"
-                android:text="Organisation"
-                android:textColor="#fff"
+                android:text="Name"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </LinearLayout>

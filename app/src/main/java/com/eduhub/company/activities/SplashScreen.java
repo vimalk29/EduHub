@@ -23,8 +23,8 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (mAuth.getCurrentUser() != null) {
-//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                    finish();
+                    startActivity(new Intent(SplashScreen.this, MainActivityT.class));
+                    finish();
                     Toast.makeText(SplashScreen.this, "LoggedIn", Toast.LENGTH_LONG).show();
                 }
                 else {

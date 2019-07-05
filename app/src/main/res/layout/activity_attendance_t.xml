@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.AttendanceT">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleViewAttendance"
+        android:layout_above="@id/subimtAttendance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_above="@id/subimtAttendance"
+        android:background="#0A1233"/>
+
+    <Button
+        android:id="@+id/subimtAttendance"
+        android:layout_alignParentBottom="true"
+        android:text="Submit"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:background="@color/colorAccent"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -26,10 +26,10 @@ public class Profile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile,null,false);
         profilePicture = view.findViewById(R.id.profilePicture);
         userName = view.findViewById(R.id.userName);
-        textViewContact = view.findViewById(R.id.textViewContact);
+        textViewContact = view.findViewById(R.id.textViewNumber);
         textViewEmail = view.findViewById(R.id.textViewEmail);
         textViewName = view.findViewById(R.id.textViewName);
-        textViewOrg =  view.findViewById(R.id.textViewOrg);
+        textViewOrg =  view.findViewById(R.id.textViewOrgName);
 
         //firebase and retrive data
         return view;
