@@ -98,21 +98,6 @@ public class UserLoginFragment extends Fragment {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 progressBar.setVisibility(View.GONE);
-//                                if (!task.isSuccessful()) {
-//                                    // there was an error
-//                                    if (password.length() < 6) {
-//                                        inputPassword.setError(getString(R.string.minimum_password));
-//                                    } else {
-//                                        Snackbar.make(getActivity().findViewById(android.R.id.content),
-//                                                task.getException().getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
-//                                    }
-//                                } else {
-////                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-////                                    startActivity(intent);
-//
-//                                    Toast.makeText(getActivity(), "LoggedIn", Toast.LENGTH_LONG).show();
-//                                }
-
                                 if (task.isSuccessful()) {
 
                                     if (auth.getCurrentUser().isEmailVerified()) {
