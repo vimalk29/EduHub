@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.AssignmentT">
+    android:layout_height="match_parent"
+    tools:context=".activities.Comments">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -21,8 +20,8 @@
             android:layout_height="30dp" />
 
         <TextView
-            android:id="@+id/ass"
-            android:text="Assignment"
+            android:id="@+id/com"
+            android:text="Comments"
             android:textColor="#000"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -37,33 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="3dp"
+        android:layout_below="@id/com"
         android:background="#000"/>
 
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/layout_shape"
-        android:layout_marginHorizontal="6dp"
-        android:layout_height="200dp">
-
-        <Button
-            android:id="@+id/buttonAssignment"
-            android:layout_centerInParent="true"
-            android:background="@drawable/file_shape"
-            android:text="  Choose File  "
-            android:textAllCaps="false"
-            android:padding="5dp"
-            android:textColor="#fff"
-            android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/listViewAssignment"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

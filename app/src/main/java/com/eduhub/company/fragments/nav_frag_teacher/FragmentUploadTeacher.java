@@ -11,25 +11,22 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.eduhub.company.R;
-import com.eduhub.company.activities.Assignment;
+import com.eduhub.company.activities.AddStudent;
 import com.eduhub.company.activities.AssignmentT;
-import com.eduhub.company.activities.Attendance;
 import com.eduhub.company.activities.AttendanceT;
-import com.eduhub.company.activities.Marks;
 import com.eduhub.company.activities.MarksT;
-import com.eduhub.company.activities.Projects;
 import com.eduhub.company.activities.ProjectsT;
-import com.eduhub.company.activities.Syllabus;
 import com.eduhub.company.activities.SyllabusT;
-import com.eduhub.company.activities.TimeTable;
 import com.eduhub.company.activities.TimeTableT;
 
 
 public class FragmentUploadTeacher extends Fragment {
 
     CardView attendanceT,assignmentT,projectsT,marksT,timeTableT,syllabusT;
+    RelativeLayout addStudent;
 
     @Nullable
     @Override
@@ -43,6 +40,7 @@ public class FragmentUploadTeacher extends Fragment {
         marksT = view.findViewById(R.id.marksT);
         timeTableT = view.findViewById(R.id.timeTableT);
         syllabusT = view.findViewById(R.id.syllabusT);
+        addStudent = view.findViewById(R.id.addStudent);
 
         attendanceT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +81,13 @@ public class FragmentUploadTeacher extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SyllabusT.class);
+                startActivity(intent);
+            }
+        });
+        addStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddStudent.class);
                 startActivity(intent);
             }
         });

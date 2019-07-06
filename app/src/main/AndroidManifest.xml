@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.ReportIssue"
-            android:theme="@style/AppTheme.NoActionBar"  ></activity>
+        <activity android:name=".activities.AddStudent"></activity>
+        <activity android:name=".activities.Comments" />
+        <activity
+            android:name=".activities.ReportIssue"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ChatRoom"
             android:label="@string/title_activity_chat_room"
@@ -40,23 +43,23 @@
         <activity android:name=".activities.MainActivityT" />
         <activity android:name=".activities.MainActivityParent" />
         <activity
-            android:name=".activities.Syllabus"
+            android:name=".activities.InfoTab.Syllabus"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.TimeTable"
+            android:name=".activities.InfoTab.TimeTable"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.Marks"
+            android:name=".activities.InfoTab.Marks"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.Dashboard" />
         <activity
-            android:name=".activities.Projects"
+            android:name=".activities.InfoTab.Projects"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.Assignment"
+            android:name=".activities.InfoTab.Assignment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.Attendance"
+            android:name=".activities.InfoTab.Attendance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.FirstActivity" />
         <activity

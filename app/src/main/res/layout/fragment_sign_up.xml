@@ -4,10 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg">
 
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_above="@id/sign_up_button"
         android:background="@drawable/gradient_bg"
@@ -33,10 +29,22 @@
             android:layout_width="80dp"
             android:layout_height="80dp" />
 
+        <TextView
+            android:id="@+id/tv"
+            android:layout_below="@id/inputProfile"
+            android:layout_centerInParent="true"
+            android:fontFamily="serif"
+            android:text="Upload profile picture"
+            android:textColor="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginBottom="3dp"/>
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editTextOrgName"
             android:layout_marginHorizontal="5dp"
-            android:layout_below="@id/inputProfile"
+            android:layout_below="@id/tv"
             android:hint="Organisation Name"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -95,7 +103,6 @@
             android:textStyle="italic" />
 
     </RelativeLayout>
-    </ScrollView>
 
     <View
         android:layout_width="match_parent"
