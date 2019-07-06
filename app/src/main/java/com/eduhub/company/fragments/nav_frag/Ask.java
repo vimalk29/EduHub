@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.eduhub.company.R;
+import com.eduhub.company.helper.DatabaseManagement;
+import com.eduhub.company.model.QuestionPOJO;
 
 public class Ask extends Fragment {
 
     TextInputEditText editTextQues;
     Button  postQues;
-
+    DatabaseManagement databaseManagement;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,6 +27,25 @@ public class Ask extends Fragment {
         editTextQues = view.findViewById(R.id.editTextQues);
         postQues = view.findViewById(R.id.postQues);
 
+        postQues.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuestionPOJO questionPOJO = new QuestionPOJO();
+                String question = editTextQues.getText().toString();
+                //TODO get imageUrl Name And UserId
+                String imageUrl ="";
+                String name ="";
+                String userId = "";
+                questionPOJO.setCount(0);
+                questionPOJO.setQuestion(question);
+                questionPOJO.setImageUrl(imageUrl);
+                questionPOJO.setName(name);
+                questionPOJO.setUserId(userId);
+                databaseManagement = new DatabaseManagement(getContext());
+                databaseManagement.uploadQuestion(questionPOJO);
+                editTextQues.setText(null);
+            }
+        });
         return view;
     }
 }

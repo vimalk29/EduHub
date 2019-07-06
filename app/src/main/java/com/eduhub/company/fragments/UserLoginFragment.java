@@ -2,9 +2,9 @@ package com.eduhub.company.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,12 +17,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eduhub.company.R;
-import com.eduhub.company.activities.Dashboard;
+import com.eduhub.company.activities.MainActivityStudent;
+import com.eduhub.company.activities.parent.MainActivityParent;
+import com.eduhub.company.activities.teacher.MainActivityT;
+import com.eduhub.company.model.StudentPOJO;
+import com.eduhub.company.model.TeacherPOJO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserLoginFragment extends Fragment {
     private EditText inputEmail, inputPassword;
@@ -31,6 +40,7 @@ public class UserLoginFragment extends Fragment {
     Button btnSignUp, btnLogin;
     TextView textViewResetPassword;
     FirebaseAuth auth;
+    DatabaseReference databaseReference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +59,10 @@ public class UserLoginFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         btnSignUp = view.findViewById(R.id.btn_signup);
         btnLogin = view.findViewById(R.id.btn_login);
-        textViewResetPassword = view.findViewById(R.id.textViewResetPassword);
+        textViewResetPassword = view.findViewById(R.id.reset_password);
+
+        inputEmail.setText("vimalkumawat99@gmail.com");
+        inputPassword.setText("adminvim");
 
         textViewResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,29 +101,123 @@ public class UserLoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
                 //authenticate user
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    if (mAuth.getCurrentUser().isEmailVerified()) {
 
-                                    if (auth.getCurrentUser().isEmailVerified()) {
-
-                                        Intent intent = new Intent(getActivity(), Dashboard.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
-                                    } else {
+                                        //TODO put everything in database and in shared preferences
+                                        final String userId = mAuth.getUid();
+                                        databaseReference = FirebaseDatabase.getInstance().getReference("teacher");
+                                        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                TeacherPOJO teacherPOJO = new TeacherPOJO();
+                                                teacherPOJO = dataSnapshot.child("profileInfo").getValue(TeacherPOJO.class);
+                                                SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("id", userId);
+                                                editor.putString("name", teacherPOJO.getName());
+                                                editor.putString("email", teacherPOJO.getEmail());
+                                                editor.putString("address", teacherPOJO.getAddress());
+                                                editor.putString("profilePic", teacherPOJO.getProfilePicURL());
+                                                editor.putString("number", teacherPOJO.getNumber());
+                                                editor.putString("type", "T");
+                                                editor.apply();
+                                                Intent intent = new Intent(getActivity(), MainActivityT.class);
+                                                startActivity(intent);
+                                                //getActivity().finish();
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                        });
+                                    }
+                                    else{
                                         Toast.makeText(getActivity(), "Not Verified", Toast.LENGTH_SHORT).show();
                                     }
+                                }
+                                else {
+                                    //Toast.makeText(getActivity(), "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    databaseReference = FirebaseDatabase.getInstance().getReference("student");
+                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot dataSnaps : dataSnapshot.getChildren()){
+                                                String number = dataSnaps.child("profileInfo").child("number").getValue(String.class);
+                                                String password = dataSnaps.child("profileInfo").child("password").getValue(String.class);
+                                                if (number.equals(inputEmail.getText().toString()) && password.equals(inputPassword.getText().toString())){
+                                                    StudentPOJO studentPOJO = dataSnaps.child("profileInfo").getValue(StudentPOJO.class);
+                                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString("id", studentPOJO.getId());
+                                                    editor.putString("name", studentPOJO.getName());
+                                                    editor.putString("email", studentPOJO.getEmail());
+                                                    editor.putString("address", studentPOJO.getAddress());
+                                                    editor.putString("profilePic", studentPOJO.getProfilePicURL());
+                                                    editor.putString("number", studentPOJO.getNumber());
+                                                    editor.putString("type", "S");
+                                                    editor.apply();
 
-                                } else {
-                                    Toast.makeText(getActivity(), "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getActivity(), MainActivityStudent.class);
+                                                    startActivity(intent);
+                                                    getActivity().finish();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                    databaseReference = FirebaseDatabase.getInstance().getReference("parent");
+                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (final DataSnapshot dataSnaps : dataSnapshot.getChildren()){
+                                                String id;
+                                                if(dataSnaps.getKey() != null){
+                                                    id = dataSnaps.getKey();
+                                                }
+                                                String number = dataSnaps.child("username").getValue(String.class);
+                                                String password = dataSnaps.child("password").getValue(String.class);
+
+                                                if (number.equals(inputEmail.getText().toString()) && password.equals(inputPassword.getText().toString())){
+                                                    String studentId = dataSnaps.child("child").getValue(String.class);
+                                                    DatabaseReference ds = FirebaseDatabase.getInstance().getReference("student").child(studentId);
+                                                    ds.child("profileInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
+                                                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                            editor.putString("email", studentPOJO.getEmail());
+                                                            editor.putString("id", studentPOJO.getId());
+                                                            editor.putString("name", studentPOJO.getName());
+                                                            editor.putString("address", studentPOJO.getAddress());
+                                                            editor.putString("profilePic", studentPOJO.getProfilePicURL());
+                                                            editor.putString("number", studentPOJO.getNumber());
+                                                            editor.putString("type", "P");
+                                                            editor.apply();
+                                                            Intent intent = new Intent(getActivity(), MainActivityParent.class);
+                                                            startActivity(intent);
+                                                            getActivity().finish();
+                                                        }
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            Toast.makeText(getContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        }
+                                    });
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -121,7 +228,6 @@ public class UserLoginFragment extends Fragment {
                 });
             }
         });
-
         return view;
     }
 }

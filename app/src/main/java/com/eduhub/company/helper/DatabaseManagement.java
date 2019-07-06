@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.eduhub.company.model.AnswerPOJO;
 import com.eduhub.company.model.ChatsPOJO;
 import com.eduhub.company.model.MessagePOJO;
+import com.eduhub.company.model.QuestionPOJO;
 import com.eduhub.company.model.StudentPOJO;
 import com.eduhub.company.model.TeacherPOJO;
 import com.eduhub.company.model.Upload;
@@ -39,42 +41,34 @@ public class DatabaseManagement {
         this.context = context;
     }
     public void createTeacher(String teacherId, TeacherPOJO teacherPOJO){//teacherId is Id given by FireBaseAuth for the authenticated user
-        databaseReference = FirebaseDatabase.getInstance().getReference("teacher");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("teacher");
         databaseReference.child(teacherId).child("profileInfo").setValue(teacherPOJO);//TeacherInfo added to DB of teacher
     }
     public void createStudent(String teacherId, StudentPOJO studentPOJO){
-        databaseReference = FirebaseDatabase.getInstance().getReference("student");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("student");
         final String studentId = databaseReference.push().getKey();
+        studentPOJO.setPassword(studentPOJO.getNumber());
+        studentPOJO.setId(studentId);
+
         databaseReference.child(studentId).child("profileInfo").setValue(studentPOJO);
         databaseReference.child(studentId).child("teachers").push().setValue(teacherId);//teacherId added to the DB oof Student
-        databaseReference.child(studentId).child("parent").push().setValue(createParent(studentId));//parentId added to the database of student
+        databaseReference.child(studentId).child("parent").push().setValue(createParent(studentPOJO));//parentId added to the database of student
         databaseReference=FirebaseDatabase.getInstance().getReference("teacher").child(teacherId);
         databaseReference.child("studentsUnderMe").push().setValue(studentId);//studentId added to the database of teacher
     }
-    private String createParent(String studentId){
-        databaseReference = FirebaseDatabase.getInstance().getReference("parent");
+    private String createParent(StudentPOJO studentPOJO){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("parent");
         final String parentId = databaseReference.push().getKey();
-        databaseReference.child(parentId).child("ward").push().setValue(studentId);//studentId added to the database of the parent
-        FirebaseDatabase.getInstance().getReference("student").child(studentId).child("profileInfo").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                String parentContactNo = studentPOJO.getGuardianContact();
-                String parentName = studentPOJO.getGuardianName();
-                databaseReference.child(parentId).child("username").setValue(parentContactNo);
-                databaseReference.child(parentId).child("password").setValue(parentContactNo);
-                databaseReference.child(parentId).child("Name").setValue(parentName);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+        databaseReference.child(parentId).child("ward").push().setValue(studentPOJO.getId());//studentId added to the database of the parent
+        databaseReference.child(parentId).child("username").setValue(studentPOJO.getGuardianContact());
+        databaseReference.child(parentId).child("password").setValue(studentPOJO.getGuardianContact());
         return parentId;
     }
+
     public void sendMessage(final String receiverId, final String senderId, String msg){
         final String chatId = returnChatId(senderId,receiverId);
         final MessagePOJO messagePOJO = new MessagePOJO(msg, returnTime(),returnDate(),senderId);
-        databaseReference = FirebaseDatabase.getInstance().getReference("conversation/P2P");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P");
         databaseReference.child(chatId).child("messages").push().setValue(messagePOJO).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -111,7 +105,7 @@ public class DatabaseManagement {
     }
     public ArrayList<ChatsPOJO> getChats(final String senderId){
         final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("student").child(senderId).child("contacts");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -172,13 +166,13 @@ public class DatabaseManagement {
     }
     public ArrayList<ChatsPOJO> getAllChats(final String senderId){
         final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
-        databaseReference.child("student").child("teachers").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("student").child("teachers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot teacherSnapshot : dataSnapshot.getChildren()){
                     String teacherId = teacherSnapshot.getValue(String.class);
                     FirebaseDatabase.getInstance().getReference("teacher").child(teacherId).child("studentsUnderMe").
-                            addListenerForSingleValueEvent(new ValueEventListener() {
+                            addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for ( DataSnapshot studentSnapshot : dataSnapshot.getChildren()){
@@ -202,21 +196,100 @@ public class DatabaseManagement {
 
         return arrayList;
     }
-    public void sendAssignments(){
+    public ArrayList<QuestionPOJO> getQuestion(){
+        final ArrayList<QuestionPOJO> arrayList = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference("question");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnap : dataSnapshot.getChildren()){
+                    QuestionPOJO questionPOJO = new QuestionPOJO();
+                    questionPOJO = dataSnap.child("questionInfo").getValue(QuestionPOJO.class);
+                    arrayList.add(questionPOJO);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return arrayList;
     }
-    public void uploadAssignment(String teacherId){
+    public ArrayList<AnswerPOJO> getAnswer(String questionId){
+        final ArrayList<AnswerPOJO> arrayList = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference("question").child(questionId).child("answers");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot datasnaps : dataSnapshot.getChildren()){
+                    AnswerPOJO answerPOJO = datasnaps.getValue(AnswerPOJO.class);
+                    arrayList.add(answerPOJO);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return arrayList;
     }
-    public void sendProjects(){
+    public void sendAssignments(String teacherId, Uri data, String fileName){
+        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
+        String addressTo = teacherId+"/assignment";
+        uploadFile(data,addressTo,fileName,databaseLocation);
+    }
+    public void uploadAssignment(String teacherId,String studentId, Uri data, String fileName){
+        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/assignments";
+        String addressTo = studentId + "/" + teacherId + "/" + "/assignment";
+        uploadFile(data,addressTo,fileName,databaseLocation);
+    }
+    public void sendProjects(String teacherId, Uri data, String fileName){
+        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
+        String addressTo = teacherId+"/assignment";
+        uploadFile(data,addressTo,fileName,databaseLocation);
+    }
+    public void uploadProjects(String teacherId,String studentId, Uri data, String fileName){
+        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/project";
+        String addressTo = studentId + "/" + teacherId + "/" + "/project";
+        uploadFile(data,addressTo,fileName,databaseLocation);
 
     }
-    public void uploadProjects(String teacherId){
+    public void getSyllabus(String teacherId){}
+    public void getMarks(String subject){}
+    public void getAssignments(){}
+    public void getProjects(){}
+    public void uploadSyllabus(){}
 
+    public void uploadQuestion(QuestionPOJO questionPOJO){
+        databaseReference = FirebaseDatabase.getInstance().getReference("question");
+        String id = databaseReference.push().getKey();
+        questionPOJO.setQuestionId(id);
+        questionPOJO.setCount(0);
+        databaseReference.child(id).child("questionInfo").setValue(questionPOJO).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Question uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    public void getSyllabus(String teacherId){
-
+    public void uploadAnswer(String questionId, AnswerPOJO answerPOJO){
+        databaseReference = FirebaseDatabase.getInstance().getReference("questions").child(questionId).child("answers");
+        databaseReference.push().setValue(answerPOJO).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Answer Successfully Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Uploading failed! Try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    public void getMarks(String subject){
-
+    public void updateCount(int count, String questionId){
+        databaseReference = FirebaseDatabase.getInstance().getReference("question").child(questionId).child("question");
+        databaseReference.child("count").setValue(count);
     }
     private String returnTime(){
         Calendar c = Calendar.getInstance();
@@ -254,6 +327,7 @@ public class DatabaseManagement {
         });
         return chatsPOJO;//last Message Is Null Here for we will return those here who we never talked with.....
     }
+
 //    private void getPDF() {
 //        //for greater than lolipop versions we need the permissions asked on runtime
 //        //so if the permission is not available user will go to the screen to allow storage permission
@@ -288,7 +362,7 @@ public class DatabaseManagement {
 //    }
     //this method is uploading the file
     private String uploadFile(Uri data, String addressTo, final String name, String databaseLocation) {
-        final StorageReference sRef = mStorageReference.child("uploadFile"+ addressTo + System.currentTimeMillis() + ".pdf");
+        final StorageReference sRef = mStorageReference.child("uploadFile"+ addressTo + System.currentTimeMillis()+name);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(databaseLocation);
         final String[] uploadId = new String[1];
         sRef.putFile(data)

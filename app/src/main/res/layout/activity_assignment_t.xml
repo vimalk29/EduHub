@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.AssignmentT">
+    tools:context=".activities.teacher.AssignmentT">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -48,7 +48,7 @@
         android:layout_height="200dp">
 
         <Button
-            android:id="@+id/buttonAssignment"
+            android:id="@+id/buttonAssignmen"
             android:layout_centerInParent="true"
             android:background="@drawable/file_shape"
             android:text="  Choose File  "

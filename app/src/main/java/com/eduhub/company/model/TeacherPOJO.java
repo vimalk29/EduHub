@@ -1,6 +1,16 @@
 package com.eduhub.company.model;
 
 public class TeacherPOJO {
+    private  String  teacherId;
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
     private String name;
     private String email;
     private String number;

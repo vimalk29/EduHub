@@ -1,4 +1,4 @@
-package com.eduhub.company.activities;
+package com.eduhub.company.activities.teacher;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +20,7 @@ public class AssignmentT extends AppCompatActivity {
         setContentView(R.layout.activity_assignment_t);
 
         listViewAssignment = findViewById(R.id.listViewAssignment);
-        buttonAssignment = findViewById(R.id.buttonAssignment);
+        buttonAssignment = findViewById(R.id.buttonAssignmen);
 
     }
 }

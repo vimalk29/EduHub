@@ -14,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.eduhub.company.R;
+import com.eduhub.company.activities.teacher.AssignmentT;
+import com.eduhub.company.activities.teacher.AttendanceT;
+import com.eduhub.company.activities.teacher.MarksT;
+import com.eduhub.company.activities.teacher.ProjectsT;
+import com.eduhub.company.activities.teacher.SyllabusT;
+import com.eduhub.company.activities.teacher.TimeTableT;
 import com.eduhub.company.activities.AddStudent;
-import com.eduhub.company.activities.AssignmentT;
-import com.eduhub.company.activities.AttendanceT;
-import com.eduhub.company.activities.MarksT;
-import com.eduhub.company.activities.ProjectsT;
-import com.eduhub.company.activities.SyllabusT;
-import com.eduhub.company.activities.TimeTableT;
 
 
 public class FragmentUploadTeacher extends Fragment {
@@ -40,7 +40,7 @@ public class FragmentUploadTeacher extends Fragment {
         marksT = view.findViewById(R.id.marksT);
         timeTableT = view.findViewById(R.id.timeTableT);
         syllabusT = view.findViewById(R.id.syllabusT);
-        addStudent = view.findViewById(R.id.addStudent);
+        addStudent = view.findViewById(R.id.addStudents);
 
         attendanceT.setOnClickListener(new View.OnClickListener() {
             @Override

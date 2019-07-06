@@ -4,6 +4,7 @@
     package="com.eduhub.company">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,25 +24,25 @@
             android:label="@string/title_activity_chat_room"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SyllabusT"
+            android:name=".activities.teacher.SyllabusT"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.TimeTableT"
+            android:name=".activities.teacher.TimeTableT"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ProjectsT"
+            android:name=".activities.teacher.ProjectsT"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MarksT"
+            android:name=".activities.teacher.MarksT"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.AssignmentT"
+            android:name=".activities.teacher.AssignmentT"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.AttendanceT"
+            android:name=".activities.teacher.AttendanceT"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.MainActivityT" />
-        <activity android:name=".activities.MainActivityParent" />
+        <activity android:name=".activities.teacher.MainActivityT" />
+        <activity android:name=".activities.parent.MainActivityParent" />
         <activity
             android:name=".activities.InfoTab.Syllabus"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -51,7 +52,8 @@
         <activity
             android:name=".activities.InfoTab.Marks"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.Dashboard" />
+        <activity android:name=".activities.MainActivityStudent" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".activities.InfoTab.Projects"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -64,14 +66,12 @@
         <activity android:name=".activities.FirstActivity" />
         <activity
             android:name=".activities.SplashScreen"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -1,14 +1,30 @@
 package com.eduhub.company.model;
 
 public class StudentPOJO {
+    private String id;
     private String name;
     private String email;
     private String number;
+    private String password;
     private String guardianName;
     private String guardianContact;
     private String address;
     private String profilePicURL;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public String getName() {
         return name;
     }

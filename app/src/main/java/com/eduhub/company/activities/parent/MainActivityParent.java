@@ -1,4 +1,4 @@
-package com.eduhub.company.activities;
+package com.eduhub.company.activities.parent;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,13 +8,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.eduhub.company.R;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentChatTeacher;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentHomeTeacher;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentProfileTeacher;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentUploadTeacher;
 
-public class MainActivityT extends AppCompatActivity {
+import com.eduhub.company.R;
+import com.eduhub.company.fragments.nav_frag.Profile;
+import com.eduhub.company.fragments.nav_frag_parent.ChatFragP;
+import com.eduhub.company.fragments.nav_frag_parent.HomeFragP;
+import com.eduhub.company.fragments.nav_frag_parent.ProfileFragP;
+
+public class MainActivityParent extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -22,7 +23,7 @@ public class MainActivityT extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_t);
+        setContentView(R.layout.activity_main_parent);
 
         tabLayout = findViewById(R.id.main_tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -30,13 +31,11 @@ public class MainActivityT extends AppCompatActivity {
         int[] tabIcons = {
                 R.drawable.ic_home_black_24dp,
                 R.drawable.ic_chat_black_24dp,
-                R.drawable.ic_file_upload_black_24dp,
                 R.drawable.ic_account_circle_black_24dp
         };
         final String[] tabNames={
                 "Home",
                 "Chat",
-                "Upload",
                 "Profile"
         };
 
@@ -44,10 +43,9 @@ public class MainActivityT extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]));
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]));
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]));
-        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[3]));
 
-        PagerAdapterT pagerAdapter =  new PagerAdapterT(getSupportFragmentManager(),tabLayout.getTabCount());
-        viewPager.setOffscreenPageLimit(4);
+        PagerAdapterP pagerAdapter =  new PagerAdapterP(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -69,15 +67,14 @@ public class MainActivityT extends AppCompatActivity {
 
             }
         });
-
     }
 }
 
-class PagerAdapterT extends FragmentPagerAdapter {
+class PagerAdapterP extends FragmentPagerAdapter {
 
     int count;
 
-    public PagerAdapterT(FragmentManager fm, int count) {
+    public PagerAdapterP(FragmentManager fm, int count) {
         super(fm);
         this.count = count;
     }
@@ -87,13 +84,11 @@ class PagerAdapterT extends FragmentPagerAdapter {
 
         switch (i){
             case 0:
-                return new FragmentHomeTeacher();
+                return new HomeFragP();
             case 1:
-                return new FragmentChatTeacher();
+                return new ChatFragP();
             case 2:
-                return new FragmentUploadTeacher();
-            case 3:
-                return new FragmentProfileTeacher();
+                return new Profile();
         }
         return null;
     }
@@ -103,4 +98,3 @@ class PagerAdapterT extends FragmentPagerAdapter {
         return count;
     }
 }
-

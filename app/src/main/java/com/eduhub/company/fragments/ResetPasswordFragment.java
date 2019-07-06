@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPasswordFragment extends Fragment {
-
     private EditText inputEmail;
     private Button submit;
     ImageView imageViewBack;
@@ -36,14 +35,11 @@ public class ResetPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reset_password, container, false);
-
         inputEmail = view.findViewById(R.id.email);
         submit = view.findViewById(R.id.submit);
-        imageViewBack = view.findViewById(R.id.imageViewback);
+        imageViewBack = view.findViewById(R.id.image_back);
         progressBar = view.findViewById(R.id.progressBar);
-
         auth = FirebaseAuth.getInstance();
-
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +49,6 @@ public class ResetPasswordFragment extends Fragment {
                         .commit();
             }
         });
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +67,6 @@ public class ResetPasswordFragment extends Fragment {
                                 } else {
                                     Toast.makeText(getContext(), "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                                 }
-
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
