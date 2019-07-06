@@ -164,19 +164,43 @@ public class DatabaseManagement {
     }
     public ArrayList<ChatsPOJO> getAllChats(final String senderId){
         final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
-        databaseReference.child("student").child("teachers").addValueEventListener(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("student").child(senderId).child("teachers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot teacherSnapshot : dataSnapshot.getChildren()){
                     String teacherId = teacherSnapshot.getValue(String.class);
-                    FirebaseDatabase.getInstance().getReference("teacher").child(teacherId).child("studentsUnderMe").
+                    Log.d(TAG, "teacherId: "+teacherId);
+                    FirebaseDatabase.getInstance().getReference().child("teacher").child(teacherId).child("studentsUnderMe").
                             addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for ( DataSnapshot studentSnapshot : dataSnapshot.getChildren()){
-                                        String studentId = studentSnapshot.getValue(String.class);
-                                        ChatsPOJO chatsPOJO = returnChatPOJO(studentId);
-                                        arrayList.add(chatsPOJO);
+                                        final String recieverId = studentSnapshot.getValue(String.class);
+                                        Log.d(TAG, "studentId: "+recieverId);
+
+                                        //
+                                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("student").child(recieverId).child("profileInfo");
+                                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
+                                                ChatsPOJO chatsPOJO = new ChatsPOJO();
+                                                chatsPOJO.setRecieverId(recieverId);
+                                                chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
+                                                chatsPOJO.setReceiverName(studentPOJO.getName());
+                                                chatsPOJO.setLastMessage("Start a chat, be closer");//LOL
+                                                chatsPOJO.setUnseen(false);
+
+                                                if (!recieverId.equals(senderId))
+                                                    arrayList.add(chatsPOJO);
+                                                Log.d(TAG, "onReturnChatPOJO: "+studentPOJO.getName()+"   "+chatsPOJO.getReceiverName());
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            }
+                                        });
+                                        //
                                     }
                                 }
                                 @Override
@@ -187,13 +211,31 @@ public class DatabaseManagement {
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-
         return arrayList;
     }
+    private ChatsPOJO returnChatPOJO(final String recieverId){
+        final ChatsPOJO chatsPOJO = new ChatsPOJO();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(recieverId).child("profileInfo");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
+                chatsPOJO.setRecieverId(recieverId);
+                chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
+                chatsPOJO.setReceiverName(studentPOJO.getName());
+                chatsPOJO.setLastMessage("Start a chat, be closer");//LOL
+                chatsPOJO.setUnseen(false);
+                Log.d(TAG, "onReturnChatPOJO: "+studentPOJO.getName()+"   "+chatsPOJO.getReceiverName());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        return chatsPOJO;//last Message Is Null Here for we will return those here who we never talked with.....
+    }
+
     public ArrayList<QuestionPOJO> getQuestion(){
         final ArrayList<QuestionPOJO> arrayList = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference("question");
@@ -305,25 +347,6 @@ public class DatabaseManagement {
             return receiverId + senderId;
         else
             return senderId + receiverId;
-    }
-    private ChatsPOJO returnChatPOJO(final String recieverId){
-        final ChatsPOJO chatsPOJO = new ChatsPOJO();
-        databaseReference = FirebaseDatabase.getInstance().getReference("student").child(recieverId).child("profileInfo");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                chatsPOJO.setRecieverId(recieverId);
-                chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
-                chatsPOJO.setReceiverName(studentPOJO.getName());
-                chatsPOJO.setLastMessage("Start a chat, be closer");//LOL
-                chatsPOJO.setUnseen(true);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        return chatsPOJO;//last Message Is Null Here for we will return those here who we never talked with.....
     }
 
 //    private void getPDF() {

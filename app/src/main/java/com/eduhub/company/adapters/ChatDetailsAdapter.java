@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,14 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
     public ChatDetailsAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem= layoutInflater.inflate(R.layout.chat_list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
+        ChatDetailsAdapter.ViewHolder viewHolder = new ChatDetailsAdapter.ViewHolder(listItem);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder( ChatDetailsAdapter.ViewHolder viewHolder, int position) {
         final ChatsPOJO chatsPOJO = arrayList.get(position);
+        Log.d("1234ChatDetailAdapter", "onBindViewHolder: "+chatsPOJO.getReceiverName());
         viewHolder.lastMessage.setText(chatsPOJO.getLastMessage());
         viewHolder.name.setText(chatsPOJO.getReceiverName());
         Glide.with(context).load(chatsPOJO.getReceiverPicUrl()).into(viewHolder.profileImage);

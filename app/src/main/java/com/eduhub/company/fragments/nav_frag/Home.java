@@ -35,7 +35,7 @@ public class Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home,null,false);
         recyclerView = view.findViewById(R.id.recyclerViewHome);
-//        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         arrayList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.eduhub.company.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.eduhub.company.R;
+import com.eduhub.company.activities.Comments;
 import com.eduhub.company.helper.DatabaseManagement;
 import com.eduhub.company.model.AnswerPOJO;
 import com.eduhub.company.model.QuestionPOJO;
@@ -42,6 +44,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         viewHolder.question.setText(questionPOJO.getQuestion());
         viewHolder.count.setText(questionPOJO.getCount() + "");
         Glide.with(context).load(questionPOJO.getImageUrl()).into(viewHolder.profilePic);
+        viewHolder.textViewAnswers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Comments.class);
+                intent.putExtra("id", questionPOJO.getQuestionId());
+                context.startActivity(intent);
+            }
+        });
         viewHolder.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,12 +105,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView profilePic;
-        TextView name, question, count;
+        TextView name, question, count, textViewAnswers;
         TextInputEditText answereditText;
         ImageButton sendButton;
         ImageView countUp, countDown;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewAnswers = itemView.findViewById(R.id.textViewAnswers);
             profilePic = itemView.findViewById(R.id.userProfile);
             name = itemView.findViewById(R.id.userId);
             question = itemView.findViewById(R.id.userQues);
