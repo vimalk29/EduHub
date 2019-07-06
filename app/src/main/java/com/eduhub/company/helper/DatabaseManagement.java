@@ -113,7 +113,7 @@ public class DatabaseManagement {
                     String receiverId = dataSnaps.getValue(String.class);
                     final String chatId = returnChatId(senderId,receiverId);
                     final ChatsPOJO chatsPOJO = new ChatsPOJO();
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("conversation/P2P").child(chatId);
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P").child(chatId);
                     reference.child("lastMessage").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -121,9 +121,7 @@ public class DatabaseManagement {
                             chatsPOJO.setLastMessage(messagePOJO.getMessage());
                         }
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
                     reference.child("unseen").child(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -154,7 +152,7 @@ public class DatabaseManagement {
                         }
                     });
                     arrayList.add(chatsPOJO);
-                    Log.d(TAG, "ArrayListOfChats Users are: "+ chatsPOJO.getReceiverName());
+                    Log.d(TAG, "Array List Of Chats Users are: "+ chatsPOJO.getReceiverName());
                 }
             }
             @Override
@@ -274,7 +272,7 @@ public class DatabaseManagement {
         });
     }
     public void uploadAnswer(String questionId, AnswerPOJO answerPOJO){
-        databaseReference = FirebaseDatabase.getInstance().getReference("questions").child(questionId).child("answers");
+        databaseReference = FirebaseDatabase.getInstance().getReference("question").child(questionId).child("answers");
         databaseReference.push().setValue(answerPOJO).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -288,7 +286,7 @@ public class DatabaseManagement {
         });
     }
     public void updateCount(int count, String questionId){
-        databaseReference = FirebaseDatabase.getInstance().getReference("question").child(questionId).child("question");
+        databaseReference = FirebaseDatabase.getInstance().getReference("question").child(questionId).child("questionInfo");
         databaseReference.child("count").setValue(count);
     }
     private String returnTime(){

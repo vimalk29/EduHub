@@ -29,6 +29,7 @@ public class Chat extends Fragment implements View.OnClickListener {
     ArrayList<ChatsPOJO> arrayList;
     String senderId;
     DatabaseManagement databaseManagement;
+    Boolean  allChat = false;
     public Chat(){}
     @Nullable
     @Override
@@ -51,12 +52,18 @@ public class Chat extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.newChatFloatingButton :
-                //open the all chat recyclerView
-                //for now I am working on the same fragment
-                addNewChat.hide();
-                arrayList = databaseManagement.getAllChats(senderId);
-                ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
-                recyclerViewChat.setAdapter(chatDetailsAdapter);
+                if (!allChat){
+                    addNewChat.setBackgroundResource(R.drawable.ic_arrow_back_b_24dp);
+                    arrayList = databaseManagement.getAllChats(senderId);
+                    ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
+                    recyclerViewChat.setAdapter(chatDetailsAdapter);
+                }
+                else{
+                    addNewChat.setBackgroundResource(R.drawable.ic_add_white_24dp);
+                    arrayList = databaseManagement.getChats(senderId);
+                    ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
+                    recyclerViewChat.setAdapter(chatDetailsAdapter);
+                }
                 break;
         }
     }

@@ -43,7 +43,7 @@
                         <TextView
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_date_range_black_24dp"
                             android:text="Attendence"
                             android:textColor="#fff"
                             android:textStyle="bold"
@@ -76,7 +76,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:fontFamily="serif"
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_description_black_24dp"
                             android:layout_marginBottom="20dp"
                             android:layout_alignParentBottom="true"
                             android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <TextView
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_note_black_24dp"
                             android:layout_marginBottom="20dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
@@ -134,7 +134,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_school_black_24dp"
                             android:layout_marginBottom="20dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
@@ -170,7 +170,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_alarm_black_24dp"
                             android:layout_marginBottom="20dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
@@ -198,7 +198,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+                            android:drawableTop="@drawable/ic_local_library_black_24dp"
                             android:layout_marginBottom="20dp"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"

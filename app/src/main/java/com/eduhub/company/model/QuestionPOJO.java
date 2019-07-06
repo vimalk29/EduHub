@@ -7,6 +7,24 @@ public class QuestionPOJO {
     private String question;
     private String questionId;
     private int count;
+    private boolean is_likes;
+    private boolean is_dis_likes;
+
+    public boolean isIs_dis_likes() {
+        return is_dis_likes;
+    }
+
+    public void setIs_dis_likes(boolean is_dis_likes) {
+        this.is_dis_likes = is_dis_likes;
+    }
+
+    public boolean isIs_likes() {
+        return is_likes;
+    }
+
+    public void setIs_likes(boolean is_likes) {
+        this.is_likes = is_likes;
+    }
 
     public String getImageUrl() {
         return imageUrl;

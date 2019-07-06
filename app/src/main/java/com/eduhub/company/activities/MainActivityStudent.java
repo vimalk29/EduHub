@@ -77,13 +77,14 @@ public class MainActivityStudent extends AppCompatActivity {
         switch (check){
             case 0:
                 break;
+            case 1:
+
+                break;
             case 2:
                 break;
             case 3:
                 break;
             case 4:
-                break;
-            case 5:
                 break;
         }
 
@@ -117,19 +118,19 @@ class PagerAdapter extends FragmentPagerAdapter {
 
         switch (i){
             case 0:
-                //MainActivityStudent.check = 0;
+                MainActivityStudent.check = 0;
                 return new Home();
             case 1:
-               // MainActivityStudent.check = 1;
+                MainActivityStudent.check = 1;
                 return new Chat();
             case 2:
-                //MainActivityStudent.check = 2;
+                MainActivityStudent.check = 2;
                 return new Ask();
             case 3:
-                //MainActivityStudent.check = 3;
+                MainActivityStudent.check = 3;
                 return new Info();
             case 4:
-                //MainActivityStudent.check = 4;
+                MainActivityStudent.check = 4;
                 return new Profile();
         }
         return null;

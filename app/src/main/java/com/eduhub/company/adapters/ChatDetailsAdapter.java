@@ -28,9 +28,8 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
         this.arrayList = arrayList;
         this.context = context;
     }
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public ChatDetailsAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem= layoutInflater.inflate(R.layout.chat_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
@@ -38,7 +37,7 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder( ChatDetailsAdapter.ViewHolder viewHolder, int position) {
         final ChatsPOJO chatsPOJO = arrayList.get(position);
         viewHolder.lastMessage.setText(chatsPOJO.getLastMessage());
         viewHolder.name.setText(chatsPOJO.getReceiverName());

@@ -10,7 +10,7 @@
     <android.support.design.widget.TabLayout
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:background="#DFD7D7"
+        android:background="#5c6991"
         android:id="@+id/main_tabLayout"
         app:tabTextColor="@color/white"
         android:layout_alignParentBottom="true"/>
