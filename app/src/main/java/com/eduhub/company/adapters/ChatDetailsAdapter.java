@@ -2,6 +2,7 @@ package com.eduhub.company.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.eduhub.company.R;
@@ -56,6 +58,7 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
                 intent.putExtra("imageUrl",chatsPOJO.getReceiverPicUrl());
                 intent.putExtra("name",chatsPOJO.getReceiverName());
                 intent.putExtra("id",chatsPOJO.getRecieverId());
+                Log.d("1234ChatDA", "onClick: "+ chatsPOJO.getReceiverName()+chatsPOJO.getReceiverPicUrl()+chatsPOJO.getRecieverId());
                 context.startActivity(intent);
             }
         });
@@ -67,11 +70,11 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public CircleImageView profileImage;
-        public TextView name, lastMessage;
-        public ImageView unseenSignifier;
-        public RelativeLayout chatLayout;
-        public ViewHolder(@NonNull View itemView) {
+        CircleImageView profileImage;
+        TextView name, lastMessage;
+        ImageView unseenSignifier;
+        RelativeLayout chatLayout;
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             profileImage = itemView.findViewById(R.id.imageProfile);
             name = itemView.findViewById(R.id.textName);

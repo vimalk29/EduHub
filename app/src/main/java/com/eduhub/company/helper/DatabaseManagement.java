@@ -68,6 +68,7 @@ public class DatabaseManagement {
     public void sendMessage(final String receiverId, final String senderId, String msg){
         final String chatId = returnChatId(senderId,receiverId);
         final MessagePOJO messagePOJO = new MessagePOJO(msg, returnTime(),returnDate(),senderId);
+        messagePOJO.setImageurl(context.getSharedPreferences("mypref",Context.MODE_PRIVATE).getString("profilePic", null));
         databaseReference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P");
         databaseReference.child(chatId).child("messages").push().setValue(messagePOJO).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -82,12 +83,15 @@ public class DatabaseManagement {
                 databaseReference.child(chatId).child("lastMessage").setValue(messagePOJO);// setting last message into Conversation
             }
         });
+        FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").push().setValue(receiverId);
+        FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").push().setValue(senderId);
     }
     public ArrayList<MessagePOJO> getMessages(String receiverId, String senderId){
         arrayList = new ArrayList<>();
         String chatId = returnChatId(senderId,receiverId);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("conversation/P2P/"+chatId+"/messages");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P")
+                    .child(chatId).child("messages");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot ds) {

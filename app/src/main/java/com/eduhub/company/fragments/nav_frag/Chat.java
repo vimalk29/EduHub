@@ -33,10 +33,12 @@ public class Chat extends Fragment implements View.OnClickListener {
     View myFragment;
     RecyclerView recyclerViewChat;
     FloatingActionButton addNewChat;
-    ArrayList<ChatsPOJO> arrayList;
+    private ArrayList<ChatsPOJO> arrayList1;
     String senderId;
     DatabaseManagement databaseManagement;
-    ChatsPOJO chatsPOJO;
+    ChatDetailsAdapter chatDetailsAdapter;
+    //ChatsPOJO chatsPOJO;
+    DatabaseReference databaseReference;
     private String TAG = "1234Chat";
     Boolean  allChat = false;
     public Chat(){}
@@ -49,84 +51,89 @@ public class Chat extends Fragment implements View.OnClickListener {
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewChat = myFragment.findViewById(R.id.newChatFloatingButton);
         databaseManagement = new DatabaseManagement(getContext());
-        arrayList = new ArrayList<>();
-        chatsPOJO = new ChatsPOJO();
+        arrayList1 = new ArrayList<>();
+        //chatsPOJO = new ChatsPOJO();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
         senderId = sharedPreferences.getString("id", null);
-        arrayList = databaseManagement.getChats(senderId);
-        ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
-        recyclerViewChat.setAdapter(chatDetailsAdapter);
+//        arrayList = databaseManagement.getChats(senderId);
+//        chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
+//        recyclerViewChat.setAdapter(chatDetailsAdapter);
         addNewChat.setOnClickListener(this);
         return myFragment;
     }
+
+    int position = 0;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.newChatFloatingButton :
                 if (!allChat){
+                    allChat = true;
                     addNewChat.setImageResource(R.drawable.ic_arrow_back_b_24dp);
-                    arrayList.clear();
-                    //
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child("student").child(senderId).child("teachers").addValueEventListener(new ValueEventListener() {
+                    arrayList1.clear();
+                    databaseReference.child("student").child(senderId).child("teachers").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot teacherSnapshot : dataSnapshot.getChildren()){
-                                String teacherId = teacherSnapshot.getValue(String.class);
-                                Log.d("1234Chat", "teacherId: "+teacherId);
-                                FirebaseDatabase.getInstance().getReference().child("teacher").child(teacherId).child("studentsUnderMe").
-                                        addValueEventListener(new ValueEventListener() {
-                                                                  @Override
-                                                                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                      for ( DataSnapshot studentSnapshot : dataSnapshot.getChildren()){
-                                                                          final String recieverId = studentSnapshot.getValue(String.class);
-                                                                          Log.d("1234Chat", "studentId: "+recieverId);
+                            for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                String teacherId = ds.getValue(String.class);
+                                DatabaseReference dbReference = databaseReference;
+                                dbReference.child("teacher").child(teacherId).child("studentsUnderMe").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshotTeacher) {
+                                        for (DataSnapshot ds1 : dataSnapshotTeacher.getChildren()){
+                                            String studentId = ds1.getValue(String.class);
+                                            DatabaseReference drf = databaseReference.child("student").child(studentId).child("profileInfo");
+                                            Log.d(TAG, "onDataChangeStudent: "+studentId);
+                                            drf.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshotStu) {
+                                                    StudentPOJO studentPOJO = dataSnapshotStu.getValue(StudentPOJO.class);
+                                                    if (!senderId.equals(studentPOJO.getId())) {
+                                                        ChatsPOJO chatsPOJO = new ChatsPOJO();
+                                                        chatsPOJO.setUnseen(false);
+                                                        chatsPOJO.setLastMessage("Start a convo, Be closer");
+                                                        chatsPOJO.setReceiverName(studentPOJO.getName());
+                                                        chatsPOJO.setRecieverId(studentPOJO.getId());
+                                                        chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
+                                                        arrayList1.add(chatsPOJO);
+                                                        arrayList1.set(position,chatsPOJO);
+                                                        position++;
+                                                        Log.d(TAG, "onDataChangeChatValue: "+chatsPOJO.getReceiverName());
+                                                        chatDetailsAdapter.notifyDataSetChanged();
+                                                    }
+                                                    for (int i =0;i< arrayList1.size();i++){
+                                                        Log.d(TAG, "onDataChangeArray"+i+": "+arrayList1.get(i).getReceiverName());
+                                                    }
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                                          //
-                                                                          DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("student").child(recieverId).child("profileInfo");
-                                                                          databaseReference1.addValueEventListener(new ValueEventListener() {
-                                                                              @Override
-                                                                              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                                  StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                                                                                  chatsPOJO.setRecieverId(recieverId);
-                                                                                  chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
-                                                                                  chatsPOJO.setReceiverName(studentPOJO.getName());
-                                                                                  chatsPOJO.setLastMessage("Start a chat, be closer");//LOL
-                                                                                  chatsPOJO.setUnseen(false);
-                                                                                  arrayList.add(chatsPOJO);
-                                                                                  Log.d("1234Chat", "onReturnChatPOJO: "+studentPOJO.getName()+"   "+chatsPOJO.getReceiverName());
-                                                                              }
-                                                                              @Override
-                                                                              public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                                                  Log.d(TAG, "onCancelled: "+databaseError.getMessage());
-                                                                              }
-                                                                          });
-                                                                          //
-                                                                      }
-                                                                  }
-                                                                  @Override
-                                                                  public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                                      Log.d(TAG, "onCancelled: "+databaseError.getMessage());
-                                                                  }
-                                                              }
-                                        );
+                                                }
+                                            });
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.d(TAG, "onCancelled: "+databaseError.getMessage());
+
                         }
                     });
-                    //
-                    Log.d("1234Chat", "onClick: "+arrayList.get(0).getReceiverName());
-                    ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
+                    chatDetailsAdapter = new ChatDetailsAdapter(arrayList1, getContext());
                     recyclerViewChat.setAdapter(chatDetailsAdapter);
-                    allChat = true;
+
                 }
                 else{
                     addNewChat.setImageResource(R.drawable.ic_add_white_24dp);
-                    arrayList = databaseManagement.getChats(senderId);
-                    ChatDetailsAdapter chatDetailsAdapter = new ChatDetailsAdapter(arrayList, getContext());
+                    arrayList1 = databaseManagement.getChats(senderId);
+                    chatDetailsAdapter = new ChatDetailsAdapter(arrayList1, getContext());
                     recyclerViewChat.setAdapter(chatDetailsAdapter);
                     allChat = false;
                 }

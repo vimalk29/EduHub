@@ -5,6 +5,15 @@ public class MessagePOJO {
     private String date;
     private String time;
     private String senderId;
+    private String imageurl;
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 
     public String getSenderId() {
         return senderId;

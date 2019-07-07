@@ -8,6 +8,8 @@
     tools:context=".activities.ChatRoom"
     tools:showIn="@layout/activity_chat_room">
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="5dp"
         android:id="@+id/recyclerview"
         android:layout_above="@+id/linear"
         android:layout_width="match_parent"
