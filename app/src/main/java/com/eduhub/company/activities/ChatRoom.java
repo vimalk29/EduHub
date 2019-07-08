@@ -78,6 +78,7 @@ public class ChatRoom extends AppCompatActivity {
             public void onClick(View v) {
                 if (editTextMessage.getText().toString().length() > 0)
                     new DatabaseManagement(getApplicationContext()).sendMessage(receiverId,senderId,editTextMessage.getText().toString());
+                messageAdapter.notifyDataSetChanged();
                 editTextMessage.setText(null);
             }
         });
@@ -97,7 +98,7 @@ public class ChatRoom extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : ds.getChildren()){
                     MessagePOJO messagePOJO = dataSnapshot.getValue(MessagePOJO.class);
                     arrayList.add(messagePOJO);
-                    Log.d(TAG, "gettingMessage: "+messagePOJO.getMessage());
+                    Log.d(TAG, "gettingMessage: "+messagePOJO.getMessage()+" from "+ messagePOJO.getSenderId());
                 }
                 messageAdapter = new MessageAdapter(arrayList, getApplicationContext());
                 recyclerView.setAdapter(messageAdapter);

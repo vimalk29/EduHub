@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.eduhub.company.R;
 import com.eduhub.company.activities.ChatRoom;
+import com.eduhub.company.helper.DatabaseManagement;
 import com.eduhub.company.model.ChatsPOJO;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -46,8 +48,11 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
         viewHolder.lastMessage.setText(chatsPOJO.getLastMessage());
         viewHolder.name.setText(chatsPOJO.getReceiverName());
         Glide.with(context).load(chatsPOJO.getReceiverPicUrl()).into(viewHolder.profileImage);
-        if (chatsPOJO.getUnseen())
+
+        if (chatsPOJO.getUnseen()) {
             viewHolder.unseenSignifier.setVisibility(View.VISIBLE);
+            chatsPOJO.setUnseen(false);
+        }
         else
             viewHolder.unseenSignifier.setVisibility(View.GONE);
 
@@ -58,6 +63,12 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
                 intent.putExtra("imageUrl",chatsPOJO.getReceiverPicUrl());
                 intent.putExtra("name",chatsPOJO.getReceiverName());
                 intent.putExtra("id",chatsPOJO.getRecieverId());
+                DatabaseManagement databaseManagement = new DatabaseManagement(context);
+                String sid = context.getSharedPreferences("mypref", Context.MODE_PRIVATE).getString("id",null);
+                FirebaseDatabase.getInstance().getReference()
+                        .child("conversation").child("P2P").child(databaseManagement.returnChatId(sid,chatsPOJO.getRecieverId()))
+                        .child("unseen").child(sid).setValue(false);
+
                 Log.d("1234ChatDA", "onClick: "+ chatsPOJO.getReceiverName()+chatsPOJO.getReceiverPicUrl()+chatsPOJO.getRecieverId());
                 context.startActivity(intent);
             }

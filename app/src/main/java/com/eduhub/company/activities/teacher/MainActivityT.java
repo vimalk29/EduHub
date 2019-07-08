@@ -30,9 +30,9 @@ public class MainActivityT extends AppCompatActivity {
         boolean doubleBackToExitPressedOnce = false;
         int[] tabIcons = {
                 R.drawable.ic_home_black_24dp,
-                R.drawable.ic_chat_black_24dp,
+                //R.drawable.ic_chat_black_24dp,
                 R.drawable.ic_file_upload_black_24dp,
-                R.drawable.ic_account_circle_black_24dp
+                R.drawable.ic_person_white_24dp
         };
         final String[] tabNames={
                 "Home",
@@ -45,10 +45,10 @@ public class MainActivityT extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]));
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]));
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]));
-        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[3]));
+        //tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[3]));
 
         PagerAdapterT pagerAdapter =  new PagerAdapterT(getSupportFragmentManager(),tabLayout.getTabCount());
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -89,11 +89,15 @@ class PagerAdapterT extends FragmentPagerAdapter {
         switch (i){
             case 0:
                 return new FragmentHomeTeacher();
+//            case 1:
+//                return new FragmentChatTeacher();
+//            case 2:
+//                return new FragmentUploadTeacher();
+//            case 3:
+//                return new Profile();
             case 1:
-                return new FragmentChatTeacher();
-            case 2:
                 return new FragmentUploadTeacher();
-            case 3:
+            case 2:
                 return new Profile();
         }
         return null;

@@ -38,7 +38,7 @@ public class MainActivityStudent extends AppCompatActivity {
                 R.drawable.ic_chat_black_24dp,
                 R.drawable.ic_file_upload_black_24dp,
                 R.drawable.ic_info_outline_black_24dp,
-                R.drawable.ic_account_circle_black_24dp
+                R.drawable.ic_person_white_24dp
         };
         final String[] tabNames={
                 "Home",

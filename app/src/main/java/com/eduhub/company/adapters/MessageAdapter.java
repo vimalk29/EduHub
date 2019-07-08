@@ -3,6 +3,7 @@ package com.eduhub.company.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +42,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         viewHolder.receiverTime.setText(messagePOJO.getTime());
         viewHolder.receiverMesaage.setText(messagePOJO.getMessage());
         viewHolder.senderMessage.setText(messagePOJO.getMessage());
-        Glide.with(context).load(messagePOJO.getImageurl()).into(viewHolder.recieverImage);
-        if (messagePOJO.getSenderId().equals(context.getSharedPreferences("mypref",Context.MODE_PRIVATE).getString("id",null))){
-            viewHolder.rid.setVisibility(View.GONE);
-        }else{
-            viewHolder.sid.setVisibility(View.GONE);
-        }
 
+        Glide.with(context).load(messagePOJO.getImageurl()).into(viewHolder.recieverImage);
+
+        String rId = context.getSharedPreferences("mypref",Context.MODE_PRIVATE).getString("id",null);
+        Log.d("1234", "onBindViewHolder: "+rId+" sender id :"+messagePOJO.getSenderId());
+        if (messagePOJO.getSenderId().equals(rId)){
+            Log.d("1234", "onBindViewHolder: SENDER  ");
+            viewHolder.rid.setVisibility(View.GONE);
+            viewHolder.sid.setVisibility(View.VISIBLE);
+        }else{
+            Log.d("1234", "onBindViewHolder: receiver");
+            viewHolder.sid.setVisibility(View.GONE);
+            viewHolder.rid.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

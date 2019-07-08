@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class UserLoginFragment extends Fragment {
     private ProgressBar progressBar;
     Button btnSignUp, btnLogin;
     TextView textViewResetPassword;
+    String studentId;
     FirebaseAuth auth;
     DatabaseReference databaseReference;
 
@@ -178,7 +180,7 @@ public class UserLoginFragment extends Fragment {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             for (final DataSnapshot dataSnaps : dataSnapshot.getChildren()){
-                                                String id;
+                                                String id = "";
                                                 if(dataSnaps.getKey() != null){
                                                     id = dataSnaps.getKey();
                                                 }
@@ -186,30 +188,50 @@ public class UserLoginFragment extends Fragment {
                                                 String password = dataSnaps.child("password").getValue(String.class);
 
                                                 if (number.equals(inputEmail.getText().toString()) && password.equals(inputPassword.getText().toString())){
-                                                    String studentId = dataSnaps.child("child").getValue(String.class);
-                                                    DatabaseReference ds = FirebaseDatabase.getInstance().getReference("student").child(studentId);
-                                                    ds.child("profileInfo").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                            StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                                                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
-                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                            editor.putString("email", studentPOJO.getEmail());
-                                                            editor.putString("id", studentPOJO.getId());
-                                                            editor.putString("name", studentPOJO.getName());
-                                                            editor.putString("address", studentPOJO.getAddress());
-                                                            editor.putString("profilePic", studentPOJO.getProfilePicURL());
-                                                            editor.putString("number", studentPOJO.getNumber());
-                                                            editor.putString("type", "P");
-                                                            editor.apply();
-                                                            Intent intent = new Intent(getActivity(), MainActivityParent.class);
-                                                            startActivity(intent);
-                                                            getActivity().finish();
-                                                        }
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                        }
-                                                    });
+
+                                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("parent")
+                                                            .child(id);
+                                                    Log.d("1234", "Value of parent Id "+id);
+
+                                                    db.child("ward").addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                    for (DataSnapshot wardSnaps : dataSnapshot.getChildren()){
+                                                                        studentId = wardSnaps.getValue(String.class);
+                                                                        Log.d("1234", "Value of student Id "+studentId);
+                                                                        DatabaseReference ds = FirebaseDatabase.getInstance()
+                                                                                .getReference("student").child(studentId);
+                                                                        ds.child("profileInfo").addValueEventListener(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
+                                                                                SharedPreferences sharedPreferences = getContext()
+                                                                                        .getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                                                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                                                editor.putString("email", studentPOJO.getEmail());
+                                                                                editor.putString("id", studentPOJO.getId());
+                                                                                editor.putString("name", studentPOJO.getGuardianName());
+                                                                                editor.putString("address", studentPOJO.getAddress());
+                                                                                editor.putString("profilePic", studentPOJO.getProfilePicURL());
+                                                                                editor.putString("number", studentPOJO.getGuardianContact());
+                                                                                editor.putString("type", "P");
+                                                                                editor.apply();
+                                                                                Intent intent = new Intent(getActivity(), MainActivityParent.class);
+                                                                                startActivity(intent);
+                                                                                getActivity().finish();
+                                                                            }
+                                                                            @Override
+                                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+
                                                 }
                                             }
                                             Toast.makeText(getContext(), "Error Logging In", Toast.LENGTH_SHORT).show();

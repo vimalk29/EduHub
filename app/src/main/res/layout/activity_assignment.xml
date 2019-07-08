@@ -8,43 +8,10 @@
     android:orientation="vertical"
     tools:context=".activities.InfoTab.Assignment">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewAssignment"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/btn_backA"
-            android:src="@drawable/ic_arrow_back_b_24dp"
-            android:layout_margin="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
-
-        <TextView
-            android:id="@+id/ass"
-            android:text="Assignment"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:fontFamily="serif"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="3dp"
-        android:layout_below="@id/ass"
-        android:background="#000"/>
-
-
-    <ListView
-        android:id="@+id/listViewAssignment"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

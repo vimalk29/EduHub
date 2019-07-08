@@ -20,7 +20,7 @@
             android:layout_height="30dp" />
         <TextView
             android:id="@+id/messageReceiver"
-            android:text="message sender"
+            android:text="message Receiver"
             android:maxWidth="240dp"
             android:textSize="20sp"
             android:textStyle="italic"

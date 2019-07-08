@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,11 +33,14 @@ import java.util.Calendar;
 public class DatabaseManagement {
     private DatabaseReference databaseReference;
     private ArrayList<MessagePOJO> arrayList;
+    private ArrayList<ChatsPOJO> arrayListChat;
     private Context context;
     private String TAG = "1234";
+    String uploadId = new String();
+    DatabaseReference mDatabaseReference;
 //    final static int PICK_PDF_CODE = 2342;
     StorageReference mStorageReference;
-    DatabaseReference mDatabaseReference;
+    //DatabaseReference mDatabaseReference;
     public DatabaseManagement(Context context){
         this.context = context;
     }
@@ -70,12 +74,8 @@ public class DatabaseManagement {
         final MessagePOJO messagePOJO = new MessagePOJO(msg, returnTime(),returnDate(),senderId);
         messagePOJO.setImageurl(context.getSharedPreferences("mypref",Context.MODE_PRIVATE).getString("profilePic", null));
         databaseReference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P");
-        databaseReference.child(chatId).child("messages").push().setValue(messagePOJO).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Message sending Failed", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(chatId).child("messages").push()
+                .setValue(messagePOJO).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 databaseReference.child(chatId).child("unseen").child(receiverId).setValue(true);//1 means unseen remains
@@ -83,8 +83,8 @@ public class DatabaseManagement {
                 databaseReference.child(chatId).child("lastMessage").setValue(messagePOJO);// setting last message into Conversation
             }
         });
-        FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").push().setValue(receiverId);
-        FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").push().setValue(senderId);
+        FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").child(receiverId).setValue(receiverId);
+        FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").child(senderId).setValue(senderId);
     }
     public ArrayList<MessagePOJO> getMessages(String receiverId, String senderId){
         arrayList = new ArrayList<>();
@@ -108,7 +108,7 @@ public class DatabaseManagement {
         return arrayList;
     }
     public ArrayList<ChatsPOJO> getChats(final String senderId){
-        final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
+        arrayListChat = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,14 +149,14 @@ public class DatabaseManagement {
                             String name = studentPOJO.getName();
                             chatsPOJO.setReceiverName(name);
                             chatsPOJO.setReceiverPicUrl(picUrl);
+                            arrayListChat.add(chatsPOJO);
+                            Log.d(TAG, "Array List Of Chats Users are: "+ chatsPOJO.getReceiverName());
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
                     });
-                    arrayList.add(chatsPOJO);
-                    Log.d(TAG, "Array List Of Chats Users are: "+ chatsPOJO.getReceiverName());
                 }
             }
             @Override
@@ -164,7 +164,7 @@ public class DatabaseManagement {
 
             }
         });
-        return arrayList;
+        return arrayListChat;
     }
     public ArrayList<ChatsPOJO> getAllChats(final String senderId){
         final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
@@ -278,27 +278,27 @@ public class DatabaseManagement {
         });
         return arrayList;
     }
-    public void sendAssignments(String teacherId, Uri data, String fileName){
-        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
-        String addressTo = teacherId+"/assignment";
-        uploadFile(data,addressTo,fileName,databaseLocation);
-    }
-    public void uploadAssignment(String teacherId,String studentId, Uri data, String fileName){
-        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/assignments";
-        String addressTo = studentId + "/" + teacherId + "/" + "/assignment";
-        uploadFile(data,addressTo,fileName,databaseLocation);
-    }
-    public void sendProjects(String teacherId, Uri data, String fileName){
-        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
-        String addressTo = teacherId+"/assignment";
-        uploadFile(data,addressTo,fileName,databaseLocation);
-    }
-    public void uploadProjects(String teacherId,String studentId, Uri data, String fileName){
-        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/project";
-        String addressTo = studentId + "/" + teacherId + "/" + "/project";
-        uploadFile(data,addressTo,fileName,databaseLocation);
-
-    }
+//    public void sendAssignments(String teacherId, Uri data, String fileName){
+//        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
+//        String addressTo = teacherId+"/assignment";
+//        uploadFile(data,addressTo,fileName,databaseLocation);
+//    }
+//    public void uploadAssignment(String teacherId,String studentId, Uri data, String fileName){
+//        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/assignments";
+//        String addressTo = studentId + "/" + teacherId + "/" + "/assignment";
+//        uploadFile(data,addressTo,fileName,databaseLocation);
+//    }
+//    public void sendProjects(String teacherId, Uri data, String fileName){
+//        String databaseLocation = "teacher/"+teacherId+"/infoTab/assginments";
+//        String addressTo = teacherId+"/assignment";
+//        uploadFile(data,addressTo,fileName,databaseLocation);
+//    }
+//    public void uploadProjects(String teacherId,String studentId, Uri data, String fileName){
+//        String databaseLocation = "student/"+studentId+"/submission/"+teacherId+"/project";
+//        String addressTo = studentId + "/" + teacherId + "/" + "/project";
+//        uploadFile(data,addressTo,fileName,databaseLocation);
+//
+//    }
     public void getSyllabus(String teacherId){}
     public void getMarks(String subject){}
     public void getAssignments(){}
@@ -346,7 +346,7 @@ public class DatabaseManagement {
         String sDate = c.get(Calendar.YEAR) + c.get(Calendar.MONTH) + (c.get(Calendar.DAY_OF_MONTH)+1) +"";
         return sDate;
     }
-    private String returnChatId(String senderId, String receiverId){
+    public String returnChatId(String senderId, String receiverId){
         if (receiverId.compareTo(senderId) > 0 )
             return receiverId + senderId;
         else
@@ -386,10 +386,13 @@ public class DatabaseManagement {
 //        }
 //    }
     //this method is uploading the file
-    private String uploadFile(Uri data, String addressTo, final String name, String databaseLocation) {
-        final StorageReference sRef = mStorageReference.child("uploadFile"+ addressTo + System.currentTimeMillis()+name);
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference(databaseLocation);
-        final String[] uploadId = new String[1];
+    public String uploadFile(Uri data, String uploaderId, final String name) {
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("teacher").child(uploaderId).child("data")
+                .child("assignment");
+
+        final StorageReference sRef = FirebaseStorage.getInstance().getReference().child("uploadFile").child(uploaderId).child(System.currentTimeMillis()+name+".pdf");
+        Log.d(TAG, "uploadFile: Uploading");
         sRef.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
                     @Override
@@ -399,7 +402,7 @@ public class DatabaseManagement {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Upload upload = new Upload(name, uri.toString());
-                                uploadId[0] = mDatabaseReference.push().getKey();
+                                uploadId = mDatabaseReference.push().getKey();
                                 mDatabaseReference.push().setValue(upload);
                             }
                         });
@@ -409,16 +412,25 @@ public class DatabaseManagement {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "uploadFile: Uploading Failed");
                     }
                 })
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        Toast.makeText(context, progress+"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,  round(progress)+"",Toast.LENGTH_SHORT).show();
                         //textViewStatus.setText((int) progress + "% Uploading...");
                     }
                 });
-        return uploadId[0];
+        return uploadId;
     }
+    private double round(double value) {
+        int places = 2;
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
 }

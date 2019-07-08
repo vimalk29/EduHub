@@ -31,7 +31,7 @@ public class MainActivityParent extends AppCompatActivity {
         int[] tabIcons = {
                 R.drawable.ic_home_black_24dp,
                 R.drawable.ic_chat_black_24dp,
-                R.drawable.ic_account_circle_white_24dp
+                R.drawable.ic_person_white_24dp
         };
         final String[] tabNames={
                 "Home",

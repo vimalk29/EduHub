@@ -3,11 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+        <Button
+            android:id="@+id/chat"
+            android:background="@color/colorPrimary"
+            android:text="Chat"
+            android:textColor="#fff"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/allChat"
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
+            android:text="Contacts"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/ll"
         android:id="@+id/recyclerViewChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/ll"
+        android:id="@+id/recyclerViewContacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton

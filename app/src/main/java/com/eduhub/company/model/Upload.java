@@ -2,8 +2,8 @@ package com.eduhub.company.model;
 
 public class Upload {
 
-    public String name;
-    public String url;
+    private String name;
+    private String url;
 
     public void setName(String name) {
         this.name = name;

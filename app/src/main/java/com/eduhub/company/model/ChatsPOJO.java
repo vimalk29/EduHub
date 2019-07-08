@@ -5,7 +5,7 @@ public class ChatsPOJO {
     private String receiverName;
     private String receiverPicUrl;
     private String lastMessage;
-    private Boolean unseen;
+    private Boolean unseen=true;
 
     public String getReceiverName() {
         return receiverName;
