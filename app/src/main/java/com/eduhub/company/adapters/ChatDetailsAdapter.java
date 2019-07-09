@@ -2,7 +2,6 @@ package com.eduhub.company.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,13 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.eduhub.company.R;
 import com.eduhub.company.activities.ChatRoom;
 import com.eduhub.company.helper.DatabaseManagement;
-import com.eduhub.company.model.ChatsPOJO;
+import com.eduhub.company.model.ChatPOJO;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -27,9 +25,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.ViewHolder> {
     Context context;
-    ArrayList<ChatsPOJO> arrayList;
-
-    public ChatDetailsAdapter(ArrayList<ChatsPOJO> arrayList, Context context){
+    ArrayList<ChatPOJO> arrayList;
+    String name;
+    String lastMessage;
+    String TAG = "1234Cha tDetailAdapter";
+    public ChatDetailsAdapter(ArrayList<ChatPOJO> arrayList, Context context){
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -43,8 +43,9 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
 
     @Override
     public void onBindViewHolder( ChatDetailsAdapter.ViewHolder viewHolder, int position) {
-        final ChatsPOJO chatsPOJO = arrayList.get(position);
-        Log.d("1234ChatDetailAdapter", "onBindViewHolder: "+chatsPOJO.getReceiverName());
+        final ChatPOJO chatsPOJO = arrayList.get(position);
+        Log.d(TAG, "onBindViewHolder: "+chatsPOJO.getReceiverName());
+
         viewHolder.lastMessage.setText(chatsPOJO.getLastMessage());
         viewHolder.name.setText(chatsPOJO.getReceiverName());
         Glide.with(context).load(chatsPOJO.getReceiverPicUrl()).into(viewHolder.profileImage);
@@ -55,6 +56,10 @@ public class ChatDetailsAdapter extends RecyclerView.Adapter<ChatDetailsAdapter.
         }
         else
             viewHolder.unseenSignifier.setVisibility(View.GONE);
+
+        Log.d(TAG, "onBindViewHolder: \n\t\t\t"+chatsPOJO.getReceiverName()+"\n\t\t\t"+
+                chatsPOJO.getLastMessage()+"\n\t\t\t"+chatsPOJO.getRecieverId()+"\n\t\t\t"+chatsPOJO.getReceiverPicUrl());
+
 
         viewHolder.chatLayout.setOnClickListener(new View.OnClickListener() {
             @Override

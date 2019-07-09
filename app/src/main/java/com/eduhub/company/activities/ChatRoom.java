@@ -73,6 +73,8 @@ public class ChatRoom extends AppCompatActivity {
         textViewName.setText(name);
 
         getMessages(returnChatId(receiverId, senderId));
+
+
         imageSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

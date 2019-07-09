@@ -1,13 +1,14 @@
 package com.eduhub.company.helper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.eduhub.company.model.AnswerPOJO;
-import com.eduhub.company.model.ChatsPOJO;
+import com.eduhub.company.model.ChatPOJO;
 import com.eduhub.company.model.MessagePOJO;
 import com.eduhub.company.model.QuestionPOJO;
 import com.eduhub.company.model.StudentPOJO;
@@ -33,8 +34,11 @@ import java.util.Calendar;
 public class DatabaseManagement {
     private DatabaseReference databaseReference;
     private ArrayList<MessagePOJO> arrayList;
-    private ArrayList<ChatsPOJO> arrayListChat;
+    private ArrayList<ChatPOJO> arrayListChat;
     private Context context;
+    String Rname ;
+    String RpicUrl;
+    ChatPOJO contact;
     private String TAG = "1234";
     String uploadId = new String();
     DatabaseReference mDatabaseReference;
@@ -69,22 +73,50 @@ public class DatabaseManagement {
         return parentId;
     }
 
-    public void sendMessage(final String receiverId, final String senderId, String msg){
+    public void sendMessage(final String receiverId, final String senderId, final String msg){
+        Rname = new String();
+        RpicUrl = new String();
+
         final String chatId = returnChatId(senderId,receiverId);
         final MessagePOJO messagePOJO = new MessagePOJO(msg, returnTime(),returnDate(),senderId);
-        messagePOJO.setImageurl(context.getSharedPreferences("mypref",Context.MODE_PRIVATE).getString("profilePic", null));
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("mypref",Context.MODE_PRIVATE);
+        messagePOJO.setImageurl(sharedPreferences.getString("profilePic", null));
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P");
-        databaseReference.child(chatId).child("messages").push()
-                .setValue(messagePOJO).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(chatId).child("messages").push().setValue(messagePOJO)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                databaseReference.child(chatId).child("unseen").child(receiverId).setValue(true);//1 means unseen remains
-                databaseReference.child(chatId).child("unseen").child(senderId).setValue(false);//0 means seen all
-                databaseReference.child(chatId).child("lastMessage").setValue(messagePOJO);// setting last message into Conversation
+                contact = new ChatPOJO();
+                contact.setLastMessage(msg);
+                contact.setReceiverName(sharedPreferences.getString("name",null));
+                contact.setReceiverPicUrl(sharedPreferences.getString("profilePic", null));
+                contact.setRecieverId(sharedPreferences.getString("id", null));
+                contact.setUnseen(true);
+
+                FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").push().setValue(contact);
+
+                contact.setRecieverId(receiverId);
+                contact.setUnseen(false);
+                FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("profileInfo")
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
+                                Rname = studentPOJO.getName();
+                                RpicUrl = studentPOJO.getProfilePicURL();
+                                Log.d("321", "onDataChange: "+ Rname + RpicUrl);
+                                contact.setReceiverName(Rname);
+                                contact.setReceiverPicUrl(RpicUrl);
+                                FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").push().setValue(contact);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                Log.d("321", "onDataChange: "+ Rname + RpicUrl);
             }
         });
-        FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").child(receiverId).setValue(receiverId);
-        FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").child(senderId).setValue(senderId);
     }
     public ArrayList<MessagePOJO> getMessages(String receiverId, String senderId){
         arrayList = new ArrayList<>();
@@ -102,12 +134,12 @@ public class DatabaseManagement {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(context, ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "321"+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         return arrayList;
     }
-    public ArrayList<ChatsPOJO> getChats(final String senderId){
+    public ArrayList<ChatPOJO> getChats(final String senderId){
         arrayListChat = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -116,7 +148,7 @@ public class DatabaseManagement {
                 for (DataSnapshot dataSnaps : dataSnapshot.getChildren()){
                     String receiverId = dataSnaps.getValue(String.class);
                     final String chatId = returnChatId(senderId,receiverId);
-                    final ChatsPOJO chatsPOJO = new ChatsPOJO();
+                    final ChatPOJO chatsPOJO = new ChatPOJO();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversation").child("P2P").child(chatId);
                     reference.child("lastMessage").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -166,8 +198,8 @@ public class DatabaseManagement {
         });
         return arrayListChat;
     }
-    public ArrayList<ChatsPOJO> getAllChats(final String senderId){
-        final ArrayList<ChatsPOJO> arrayList = new ArrayList<>();
+    public ArrayList<ChatPOJO> getAllChats(final String senderId){
+        final ArrayList<ChatPOJO> arrayList = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("student").child(senderId).child("teachers").addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,7 +221,7 @@ public class DatabaseManagement {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                                                ChatsPOJO chatsPOJO = new ChatsPOJO();
+                                                ChatPOJO chatsPOJO = new ChatPOJO();
                                                 chatsPOJO.setRecieverId(recieverId);
                                                 chatsPOJO.setReceiverPicUrl(studentPOJO.getProfilePicURL());
                                                 chatsPOJO.setReceiverName(studentPOJO.getName());
@@ -219,8 +251,8 @@ public class DatabaseManagement {
         });
         return arrayList;
     }
-    private ChatsPOJO returnChatPOJO(final String recieverId){
-        final ChatsPOJO chatsPOJO = new ChatsPOJO();
+    private ChatPOJO returnChatPOJO(final String recieverId){
+        final ChatPOJO chatsPOJO = new ChatPOJO();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(recieverId).child("profileInfo");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

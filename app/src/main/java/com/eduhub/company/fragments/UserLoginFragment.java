@@ -234,7 +234,7 @@ public class UserLoginFragment extends Fragment {
 
                                                 }
                                             }
-                                            Toast.makeText(getContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(getContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
                                         }
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -245,7 +245,7 @@ public class UserLoginFragment extends Fragment {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

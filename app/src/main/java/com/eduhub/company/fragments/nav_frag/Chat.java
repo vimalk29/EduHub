@@ -4,7 +4,6 @@ package com.eduhub.company.fragments.nav_frag;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +19,7 @@ import android.widget.Button;
 import com.eduhub.company.R;
 import com.eduhub.company.adapters.ChatDetailsAdapter;
 import com.eduhub.company.helper.DatabaseManagement;
-import com.eduhub.company.model.ChatsPOJO;
+import com.eduhub.company.model.ChatPOJO;
 import com.eduhub.company.model.MessagePOJO;
 import com.eduhub.company.model.StudentPOJO;
 import com.google.firebase.database.DataSnapshot;
@@ -30,21 +29,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Chat extends Fragment implements View.OnClickListener {
     View myFragment;
-    ChatsPOJO chatsPOJO;
     RecyclerView recyclerViewChat, recyclerViewContact;
     FloatingActionButton addNewChat;
-    private ArrayList<ChatsPOJO> arrayList1, arrayListChat;
-    String senderId;
+    private ArrayList<ChatPOJO> arrayList1, arrayListChat;
+    String senderId, nameR, picUrl, lastMessage;
     DatabaseManagement databaseManagement;
     ChatDetailsAdapter chatDetailsAdapterChat, chatDetailsAdapterContact;
     Button chatButton, contactButton;
     DatabaseReference databaseReference;
     private String TAG = "1234Chat";
     Boolean  allChat = false;
+    ChatPOJO chatsPOJO;
     public Chat(){}
     @Nullable
     @Override
@@ -138,7 +138,7 @@ public class Chat extends Fragment implements View.OnClickListener {
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshotStu) {
                                         StudentPOJO studentPOJO = dataSnapshotStu.getValue(StudentPOJO.class);
                                         if (!senderId.equals(studentPOJO.getId())) {
-                                            ChatsPOJO chatsPOJO = new ChatsPOJO();
+                                            ChatPOJO chatsPOJO = new ChatPOJO();
                                             chatsPOJO.setUnseen(false);
                                             chatsPOJO.setLastMessage("Start a convo, Be closer");
                                             chatsPOJO.setReceiverName(studentPOJO.getName());
@@ -176,64 +176,22 @@ public class Chat extends Fragment implements View.OnClickListener {
     }
     public void getChats(){
         arrayListChat = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(getContext()
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("student").child(Objects.requireNonNull(getContext()
                 .getSharedPreferences("mypref", Context.MODE_PRIVATE)
-                .getString("id", null)).child("contacts");
+                .getString("id", null))).child("contacts");
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayListChat.clear();
-                for (DataSnapshot dataSnaps : dataSnapshot.getChildren()){
-                    String receiverId = dataSnaps.getValue(String.class);
-                    final String chatId = databaseManagement.returnChatId(senderId,receiverId);
-                    chatsPOJO = new ChatsPOJO();
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversation")
-                            .child("P2P").child(chatId);
-                    reference.child("lastMessage")
-                            .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            MessagePOJO messagePOJO = dataSnapshot.getValue(MessagePOJO.class);
-                            chatsPOJO.setLastMessage(messagePOJO.getMessage());
-                            chatDetailsAdapterChat.notifyDataSetChanged();
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
-                    });
-                    reference.child("unseen").child(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Boolean unseen = dataSnapshot.getValue(Boolean.class);
-                            chatsPOJO.setUnseen(unseen);
-                            chatDetailsAdapterChat.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                    chatsPOJO.setRecieverId(receiverId);
-                    reference = FirebaseDatabase.getInstance().getReference("student").child(receiverId);
-                    reference.child("profileInfo").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            StudentPOJO studentPOJO = dataSnapshot.getValue(StudentPOJO.class);
-                            String picUrl = studentPOJO.getProfilePicURL();
-                            String name = studentPOJO.getName();
-                            chatsPOJO.setReceiverName(name);
-                            chatsPOJO.setReceiverPicUrl(picUrl);
-                            arrayListChat.add(chatsPOJO);
-                            Log.d(TAG, "Array List Of Chats Users are: "+ chatsPOJO.getReceiverName());
-                            chatDetailsAdapterChat.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                    Log.d(TAG, "onDataChange: "+ dataSnapshot1.toString());
+                    ChatPOJO chatsPOJO = dataSnapshot1.getValue(ChatPOJO.class);
+                    arrayListChat.add(chatsPOJO);
+                    chatDetailsAdapterChat.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
