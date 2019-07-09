@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.eduhub.company.R;
+import com.eduhub.company.fragments.nav_frag.Home;
 import com.eduhub.company.fragments.nav_frag.Profile;
 import com.eduhub.company.fragments.nav_frag_teacher.FragmentChatTeacher;
 import com.eduhub.company.fragments.nav_frag_teacher.FragmentHomeTeacher;
@@ -29,9 +30,9 @@ public class MainActivityT extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         boolean doubleBackToExitPressedOnce = false;
         int[] tabIcons = {
+                R.drawable.ic_file_upload_black_24dp,
                 R.drawable.ic_home_black_24dp,
                 //R.drawable.ic_chat_black_24dp,
-                R.drawable.ic_file_upload_black_24dp,
                 R.drawable.ic_person_white_24dp
         };
         final String[] tabNames={
@@ -88,7 +89,7 @@ class PagerAdapterT extends FragmentPagerAdapter {
 
         switch (i){
             case 0:
-                return new FragmentHomeTeacher();
+                return new FragmentUploadTeacher();
 //            case 1:
 //                return new FragmentChatTeacher();
 //            case 2:
@@ -96,7 +97,7 @@ class PagerAdapterT extends FragmentPagerAdapter {
 //            case 3:
 //                return new Profile();
             case 1:
-                return new FragmentUploadTeacher();
+                return new Home();
             case 2:
                 return new Profile();
         }

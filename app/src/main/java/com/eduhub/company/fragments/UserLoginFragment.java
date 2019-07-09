@@ -33,16 +33,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.wang.avi.AVLoadingIndicatorView;
 
 public class UserLoginFragment extends Fragment {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
     Button btnSignUp, btnLogin;
     TextView textViewResetPassword;
     String studentId;
     FirebaseAuth auth;
     DatabaseReference databaseReference;
+    AVLoadingIndicatorView progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class UserLoginFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_user_login, container, false);
         mAuth = FirebaseAuth.getInstance();
-
+        progressBar = view.findViewById(R.id.avi);
         inputEmail = view.findViewById(R.id.email);
         inputPassword = view.findViewById(R.id.password);
         progressBar = view.findViewById(R.id.progressBar);
@@ -92,6 +93,7 @@ public class UserLoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.show();
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
 
@@ -129,9 +131,11 @@ public class UserLoginFragment extends Fragment {
                                                 editor.putString("number", teacherPOJO.getNumber());
                                                 editor.putString("type", "T");
                                                 editor.apply();
+                                                progressBar.hide();
                                                 Intent intent = new Intent(getActivity(), MainActivityT.class);
                                                 startActivity(intent);
-                                                //getActivity().finish();
+                                                progressBar.hide();
+                                                getActivity().finish();
                                             }
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -165,6 +169,7 @@ public class UserLoginFragment extends Fragment {
 
                                                     Intent intent = new Intent(getActivity(), MainActivityStudent.class);
                                                     startActivity(intent);
+                                                    progressBar.hide();
                                                     getActivity().finish();
                                                 }
                                             }

@@ -94,10 +94,12 @@ public class DatabaseManagement {
                 contact.setRecieverId(sharedPreferences.getString("id", null));
                 contact.setUnseen(true);
 
-                FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("contacts").push().setValue(contact);
+                FirebaseDatabase.getInstance().getReference().child("student")
+                        .child(receiverId).child("contacts").child(senderId).setValue(contact);
 
                 contact.setRecieverId(receiverId);
                 contact.setUnseen(false);
+
                 FirebaseDatabase.getInstance().getReference().child("student").child(receiverId).child("profileInfo")
                         .addValueEventListener(new ValueEventListener() {
                             @Override
@@ -108,7 +110,7 @@ public class DatabaseManagement {
                                 Log.d("321", "onDataChange: "+ Rname + RpicUrl);
                                 contact.setReceiverName(Rname);
                                 contact.setReceiverPicUrl(RpicUrl);
-                                FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").push().setValue(contact);
+                                FirebaseDatabase.getInstance().getReference().child("student").child(senderId).child("contacts").child(receiverId).setValue(contact);
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
