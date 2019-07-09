@@ -17,6 +17,7 @@ import com.eduhub.company.fragments.nav_frag.Home;
 import com.eduhub.company.fragments.nav_frag.Info;
 import com.eduhub.company.fragments.nav_frag.Profile;
 import com.eduhub.company.fragments.nav_frag.Ask;
+import com.wang.avi.AVLoadingIndicatorView;
 
 public class MainActivityStudent extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class MainActivityStudent extends AppCompatActivity {
      static int check;
     TabLayout tabLayout;
     ViewPager viewPager;
+    AVLoadingIndicatorView progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class MainActivityStudent extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         tabLayout = findViewById(R.id.main_tabLayout);
+        progressBar = findViewById(R.id.avi);
+        progressBar.show();
         viewPager = findViewById(R.id.viewPager);
         int[] tabIcons = {
                 R.drawable.ic_home_black_24dp,
@@ -70,6 +74,13 @@ public class MainActivityStudent extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {            }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.hide();
+            }
+        },3000);
     }
 
     @Override

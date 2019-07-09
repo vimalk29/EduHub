@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
-    implementation 'com.wang.avi:library:2.1.3'//for progressba
+    implementation 'com.wang.avi:library:2.1.3'//for progressbar
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

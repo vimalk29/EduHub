@@ -29,4 +29,14 @@
         android:id="@+id/viewPager"
         android:layout_above="@+id/main_tabLayout" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="visible"
+        app:indicatorName="BallPulseIndicator"
+        app:indicatorColor="@color/colorPrimaryDark" />
+
 </RelativeLayout>

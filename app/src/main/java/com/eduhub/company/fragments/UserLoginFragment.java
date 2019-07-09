@@ -223,6 +223,7 @@ public class UserLoginFragment extends Fragment {
                                                                                 editor.apply();
                                                                                 Intent intent = new Intent(getActivity(), MainActivityParent.class);
                                                                                 startActivity(intent);
+                                                                                progressBar.hide();
                                                                                 getActivity().finish();
                                                                             }
                                                                             @Override
