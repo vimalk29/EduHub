@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.eduhub.company.R;
+import com.eduhub.company.activities.ReportIssue;
 import com.eduhub.company.activities.teacher.AssignmentT;
 import com.eduhub.company.activities.teacher.AttendanceT;
 import com.eduhub.company.activities.teacher.MarksT;
@@ -41,6 +43,7 @@ public class FragmentUploadTeacher extends Fragment {
         timeTableT = view.findViewById(R.id.timeTableT);
         syllabusT = view.findViewById(R.id.syllabusT);
         addStudent = view.findViewById(R.id.addStudents);
+        TextView report = view.findViewById(R.id.report);
 
         attendanceT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +92,13 @@ public class FragmentUploadTeacher extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddStudent.class);
                 startActivity(intent);
+            }
+        });
+
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ReportIssue.class));
             }
         });
 

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.eduhub.company.R;
 import com.eduhub.company.activities.InfoTab.Assignment;
@@ -20,16 +21,15 @@ import com.eduhub.company.activities.InfoTab.Marks;
 import com.eduhub.company.activities.InfoTab.Projects;
 import com.eduhub.company.activities.InfoTab.Syllabus;
 import com.eduhub.company.activities.InfoTab.TimeTable;
+import com.eduhub.company.activities.ReportIssue;
 
 public class HomeFragP extends Fragment {
-
     CardView attendance,assignment,projects,marks,timeTable,syllabus;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home_frag,null,false);
+        View view = inflater.inflate(R.layout.fragment_info,null,false);
 
         attendance = view.findViewById(R.id.attendance);
         assignment  = view.findViewById(R.id.assignment);
@@ -37,6 +37,7 @@ public class HomeFragP extends Fragment {
         marks = view.findViewById(R.id.marks);
         timeTable = view.findViewById(R.id.timeTable);
         syllabus = view.findViewById(R.id.syllabus);
+        TextView report = view.findViewById(R.id.report);
 
         attendance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +81,12 @@ public class HomeFragP extends Fragment {
                 startActivity(intent);
             }
         });
-
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ReportIssue.class));
+            }
+        });
         return view;
     }
 }

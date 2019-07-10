@@ -37,18 +37,18 @@ public class ResetPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_reset_password, container, false);
         inputEmail = view.findViewById(R.id.email);
         submit = view.findViewById(R.id.submit);
-        imageViewBack = view.findViewById(R.id.image_back);
         progressBar = view.findViewById(R.id.progressBar);
         auth = FirebaseAuth.getInstance();
-        imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment nextFrag= new UserLoginFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.activity_first_fragment, nextFrag,"Reset Password Fragment" )
-                        .commit();
-            }
-        });
+
+//        imageViewBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Fragment nextFrag= new UserLoginFragment();
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.activity_first_fragment, nextFrag,"Reset Password Fragment" )
+//                        .commit();
+//            }
+//        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +58,7 @@ public class ResetPasswordFragment extends Fragment {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+
                 auth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

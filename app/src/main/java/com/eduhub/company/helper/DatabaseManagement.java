@@ -420,10 +420,10 @@ public class DatabaseManagement {
 //        }
 //    }
     //this method is uploading the file
-    public String uploadFile(Uri data, String uploaderId, final String name) {
+    public String uploadFile(Uri data, String uploaderId, final String name, final String dataType) {
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("teacher").child(uploaderId).child("data")
-                .child("assignment");
+                .child(dataType);
 
         final StorageReference sRef = FirebaseStorage.getInstance().getReference().child("uploadFile").child(uploaderId).child(System.currentTimeMillis()+name+".pdf");
         Log.d(TAG, "uploadFile: Uploading");
@@ -438,6 +438,7 @@ public class DatabaseManagement {
                                 Upload upload = new Upload(name, uri.toString());
                                 uploadId = mDatabaseReference.push().getKey();
                                 mDatabaseReference.push().setValue(upload);
+
                             }
                         });
                     }

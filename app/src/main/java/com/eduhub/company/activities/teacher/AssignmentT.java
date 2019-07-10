@@ -38,7 +38,7 @@ public class AssignmentT extends AppCompatActivity {
     Button buttonAssignment;
     String TAG = "1234AssT", uploadId;
     DatabaseReference mDatabaseReference;
-    ArrayList<Upload> uploads;
+    ArrayList<Upload> uploads = new ArrayList<>();;
     AVLoadingIndicatorView progressBar;
     final static int PICK_PDF_CODE = 2342;
 
@@ -49,7 +49,7 @@ public class AssignmentT extends AppCompatActivity {
         progressBar = findViewById(R.id.avi);
         assignments = findViewById(R.id.uploadAssignments);
         buttonAssignment = findViewById(R.id.buttonAssignmen);
-        assignments.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        assignments.setLayoutManager(new LinearLayoutManager(this));
         assignments.setHasFixedSize(true);
 
         progressBar.show();
@@ -65,7 +65,9 @@ public class AssignmentT extends AppCompatActivity {
     }
 
     private void getList(){
-        uploads = new ArrayList<>();
+
+
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("teacher").child(Objects.requireNonNull(getSharedPreferences("mypref", MODE_PRIVATE).getString("id", null)))
@@ -91,8 +93,6 @@ public class AssignmentT extends AppCompatActivity {
 
         progressBar.hide();
     }
-
-
     private void getPDF() {
         //for greater than lolipop versions we need the permissions asked on runtime
         //so if the permission is not available user will go to the screen to allow storage permission
@@ -130,7 +130,7 @@ public class AssignmentT extends AppCompatActivity {
                     String path = myFile.getAbsolutePath();
                     name = ""+System.currentTimeMillis();
 
-                new DatabaseManagement(getApplicationContext()).uploadFile(uri,addressTo,name);
+                new DatabaseManagement(getApplicationContext()).uploadFile(uri,addressTo,name, "assignment");
             }else{
                 Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
             }

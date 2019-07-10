@@ -50,7 +50,6 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         databaseManagement = new DatabaseManagement(getApplicationContext());
 
         final String senderId = getSharedPreferences("mypref", MODE_PRIVATE).getString("id",null);

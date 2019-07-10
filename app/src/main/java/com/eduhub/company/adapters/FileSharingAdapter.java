@@ -38,20 +38,23 @@ public class FileSharingAdapter extends RecyclerView.Adapter<FileSharingAdapter.
     @Override
     public void onBindViewHolder(@NonNull final FileSharingAdapter.ViewHolder viewHolder, final int i) {
         final Upload upload = uploads.get(i);
+        Log.d("1234file", "onBindViewHolder: "+uploads.size());
         viewHolder.buttonDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Downloading File", Toast.LENGTH_SHORT);
-                Intent intent = new Intent(context, DownloadActivity.class);
+                Log.d("1234", "onClick: chlo shuru kre 1 khel"+upload.getName()+" "+upload.getUrl());
+                /*Intent intent = new Intent(context, DownloadActivity.class);
                 intent.putExtra("fileName", upload.getName());
                 intent.putExtra("url", upload.getUrl());
 
-                Log.d("1234", "onClick: chlo shuru kre 1 khel"+upload.getName()+" "+upload.getUrl());
-                context.startActivity(intent);
+                context.startActivity(intent);*/
             }
         });
+        Log.d("123456", "onBindViewHolder: sdxrfcgvhbjnkjbhvgcfxdzfcgvhbjnbhgvcfxd");
         viewHolder.fileName.setText(upload.getName());
     }
+
     @Override
     public int getItemCount() {
         return uploads.size();

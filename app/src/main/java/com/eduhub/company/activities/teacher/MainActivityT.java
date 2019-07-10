@@ -11,9 +11,6 @@ import android.os.Bundle;
 import com.eduhub.company.R;
 import com.eduhub.company.fragments.nav_frag.Home;
 import com.eduhub.company.fragments.nav_frag.Profile;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentChatTeacher;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentHomeTeacher;
-import com.eduhub.company.fragments.nav_frag_teacher.FragmentProfileTeacher;
 import com.eduhub.company.fragments.nav_frag_teacher.FragmentUploadTeacher;
 
 public class MainActivityT extends AppCompatActivity {

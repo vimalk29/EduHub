@@ -51,10 +51,10 @@ public class Profile extends Fragment {
         organisation=sharedPreferences.getString("name", null);
 
         userName.setText(null);
-        textViewContact.setText(number);
-        textViewEmail.setText(email);
-        textViewName.setText(name);
-        textViewOrg.setText(organisation);
+        textViewContact.setText("Number: "+number);
+        textViewEmail.setText("Email"+email);
+        textViewName.setText("Name: "+name);
+        textViewOrg.setText("Organisation: "+organisation);
         Glide.with(getActivity()).load(profileImage).into(profilePicture);
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +64,7 @@ public class Profile extends Fragment {
                 auth.signOut();
                 Intent intent = new Intent(getActivity(), FirstActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

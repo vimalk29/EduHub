@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -44,10 +45,17 @@ public class UserLoginFragment extends Fragment {
     FirebaseAuth auth;
     DatabaseReference databaseReference;
     AVLoadingIndicatorView progressBar;
+    Boolean flag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        progressBar.hide();
     }
 
     @Override
@@ -63,9 +71,7 @@ public class UserLoginFragment extends Fragment {
         btnSignUp = view.findViewById(R.id.btn_signup);
         btnLogin = view.findViewById(R.id.btn_login);
         textViewResetPassword = view.findViewById(R.id.reset_password);
-
-        inputEmail.setText("vimalkumawat99@gmail.com");
-        inputPassword.setText("adminvim");
+        progressBar = view.findViewById(R.id.avi);
 
         textViewResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +83,6 @@ public class UserLoginFragment extends Fragment {
                         .commit();
             }
         });
-
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +98,7 @@ public class UserLoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.show();
+
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
 
@@ -105,6 +110,9 @@ public class UserLoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                progressBar.show();
+
                 //authenticate user
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -112,7 +120,7 @@ public class UserLoginFragment extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     if (mAuth.getCurrentUser().isEmailVerified()) {
-
+                                        //progressBar.show();
                                         //TODO put everything in database and in shared preferences
                                         final String userId = mAuth.getUid();
                                         databaseReference = FirebaseDatabase.getInstance().getReference("teacher");
@@ -132,13 +140,16 @@ public class UserLoginFragment extends Fragment {
                                                 editor.putString("type", "T");
                                                 editor.apply();
                                                 progressBar.hide();
+                                                flag = true;
                                                 Intent intent = new Intent(getActivity(), MainActivityT.class);
                                                 startActivity(intent);
                                                 progressBar.hide();
                                                 getActivity().finish();
                                             }
                                             @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(getContext(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
                                         });
                                     }
                                     else{
@@ -166,17 +177,22 @@ public class UserLoginFragment extends Fragment {
                                                     editor.putString("number", studentPOJO.getNumber());
                                                     editor.putString("type", "S");
                                                     editor.apply();
-
+                                                    flag = true;
                                                     Intent intent = new Intent(getActivity(), MainActivityStudent.class);
                                                     startActivity(intent);
                                                     progressBar.hide();
                                                     getActivity().finish();
+                                                }else
+                                                    if(number.equals(inputEmail.getText().toString())){
+                                                        Toast.makeText(getContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
                                                 }
+                                                    flag = false;
                                             }
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            Toast.makeText(getContext(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
                                         }
                                     });
@@ -225,20 +241,25 @@ public class UserLoginFragment extends Fragment {
                                                                                 startActivity(intent);
                                                                                 progressBar.hide();
                                                                                 getActivity().finish();
+                                                                                flag = true;
                                                                             }
                                                                             @Override
                                                                             public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                                Toast.makeText(getContext(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         });
                                                                     }
                                                                 }
                                                                 @Override
                                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                                                    Toast.makeText(getContext(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
 
+                                                }else if(number.equals(inputEmail.getText().toString())){
+                                                    Toast.makeText(getContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
                                                 }
+                                                flag = false;
                                             }
 //                                            Toast.makeText(getContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
                                         }

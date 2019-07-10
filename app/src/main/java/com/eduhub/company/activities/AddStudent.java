@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,11 @@ public class AddStudent extends AppCompatActivity {
         studentSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uri = imageHelper.getURI_FOR_SELECTED_IMAGE();
+                if (uri == null ){
+                    Toast.makeText(AddStudent.this, "Please Select Profile Pic by tapping Icon", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                  name = inputStuName.getText().toString();
                  email = inputStuEmail.getText().toString();
                  number = inputStuNumber.getText().toString();
@@ -66,7 +72,32 @@ public class AddStudent extends AppCompatActivity {
                  guardianContact = inputStuParentNumber.getText().toString();
                  guardianName = inputStuParentName.getText().toString();
                  databaseReference = FirebaseDatabase.getInstance().getReference().child("student");
-                 uri = imageHelper.getURI_FOR_SELECTED_IMAGE();
+
+                if (TextUtils.isEmpty(email) ) {
+                    Toast.makeText(AddStudent.this, "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(guardianContact) ) {
+                    Toast.makeText(AddStudent.this, "Enter Guardian contact!", Toast.LENGTH_SHORT).show();
+                    return;
+                }if (TextUtils.isEmpty(address) ) {
+                    Toast.makeText(AddStudent.this, "Enter address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(name) ) {
+                    Toast.makeText(AddStudent.this, "Enter Name!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(number)) {
+                    Toast.makeText(AddStudent.this, "Enter Number!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (number.length() != 10 && guardianContact.length() != 10) {
+                    Toast.makeText(AddStudent.this, "Wrong Mobile no.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                  final StorageReference storageReference =   FirebaseStorage.getInstance().getReference().child("image/"+inputStuNumber.getText().toString());
                  storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

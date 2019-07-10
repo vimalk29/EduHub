@@ -37,7 +37,6 @@ public class Comments extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerviewComments);
         arrayList = new ArrayList<>();
         answerPOJO = new AnswerPOJO();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Comments");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

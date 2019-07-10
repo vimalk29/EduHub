@@ -72,15 +72,6 @@ public class SignUpFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         imageHelper = new SelectImageHelper(getActivity(), inputProfile);
 
-        /////////////////////////////////////
-        inputEmail.setText("vimalkumawat99@gmail.com");
-        inputPassword.setText("adminvim");
-        editTextRePassword.setText("adminvim");
-        editTextAddress.setText("jaipur");
-        editTextNumber.setText("9694540876");
-        editTextOrgName.setText("EDUHUB");
-
-
         textViewSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
